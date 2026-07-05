@@ -37,21 +37,27 @@ export default function App() {
   );
 
   return (
-    <div className="page">
-      <header className="masthead">
-        <div className="masthead-kicker">
-          <span>AI Academy · Tier-0 Operations Console</span>
-          <span>{today}</span>
-        </div>
-        <h1 className="masthead-title">HR Service Delivery</h1>
-        <div className="masthead-sub">
-          <span>
-            Nine scenario chains · Sequential MAF pattern · one HITL gate at step 16 · every step
-            ledgered
-          </span>
-          <span className="masthead-figures">All figures are synthetic reference figures</span>
-        </div>
+    <>
+      <header className="topbar">
+        <span className="wordmark">
+          Deloitte<span className="wordmark-dot">.</span>
+        </span>
+        <span className="topbar-right">AI Academy · Tier-0 Operations Console · {today}</span>
       </header>
+      <div className="page">
+        <div className="masthead">
+          <div className="masthead-kicker">HR Service Delivery</div>
+          <h1 className="masthead-title">
+            Scenario Chain Console<span className="title-dot">.</span>
+          </h1>
+          <div className="masthead-sub">
+            <span>
+              Nine scenario chains · Sequential MAF pattern · one HITL gate at step 16 · every
+              step ledgered
+            </span>
+            <span className="masthead-figures">All figures are synthetic reference figures</span>
+          </div>
+        </div>
 
       {apiDown ? (
         <div className="api-down">
@@ -65,12 +71,14 @@ export default function App() {
         </div>
       )}
 
-      <footer className="colophon">
-        <span>
-          Chain: Assess → Classify → Quantify → Decide → <strong>★ HITL (16)</strong> → Act → Learn
-        </span>
-        <span>docs/07 · test on the Deloitte tenant · deploy at the customer site</span>
-      </footer>
-    </div>
+        <footer className="colophon">
+          <span>
+            Chain: Assess → Classify → Quantify → Decide → <strong>★ HITL (16)</strong> → Act →
+            Learn
+          </span>
+          <span>docs/07 · test on the Deloitte tenant · deploy at the customer site</span>
+        </footer>
+      </div>
+    </>
   );
 }
