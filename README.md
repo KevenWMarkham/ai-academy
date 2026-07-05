@@ -43,7 +43,8 @@ AI-Academy/
 │   ├── 05-azure-ai-services-map.md ← which Azure AI service powers which scenario
 │   ├── 06-student-labs.md        ← graded lab exercises
 │   ├── 07-m365-copilot-surface.md ← surface in M365 Copilot: Deloitte-tenant test → customer deploy
-│   └── 08-knowledge-base.md      ← the KB corpus, vector pipeline, Azure AI Search index
+│   ├── 08-knowledge-base.md      ← the KB corpus, vector pipeline, Azure AI Search index
+│   └── 09-implementation-architecture.md ← enterprise architecture doc + layered SVG diagram
 ├── packages/
 │   ├── academy-core/             ← chain runtime: roles, HITL gate, ledger, KPI rollup
 │   ├── academy-services/         ← AI-service adapters (mock-first, live-Azure optional)
