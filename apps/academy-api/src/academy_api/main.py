@@ -16,6 +16,7 @@ from __future__ import annotations
 import os
 
 from fastapi import Depends, FastAPI, Header, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 import academy_hrsd  # noqa: F401  (import = scenario registration)
@@ -32,6 +33,16 @@ app = FastAPI(
         "human-in-the-loop gate at step 16, a full audit ledger, and named KPIs. "
         "Backend for the 'HR Service Delivery' M365 Copilot declarative agent."
     ),
+)
+
+# The training decks embed a live-agent panel that calls this API from the
+# browser (file:// or any host), so cross-origin must be open. Teaching API,
+# synthetic data, optional X-Api-Key — CORS is not the security boundary here.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 _hub = ServiceHub()

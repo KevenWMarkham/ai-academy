@@ -58,6 +58,38 @@
   .layer:nth-child(odd){background:#FBFBF9}
   .layer .n{font-family:var(--mono);font-weight:700;color:var(--green-d);min-width:20px}
   .layer .t2{font-weight:700;min-width:225px}
+  /* interactive widgets: purview simulator + live agent */
+  .sim,.agent{border:1px solid var(--black);border-radius:3px;background:var(--white);margin:14px 0}
+  .sim-bar,.agent-bar{display:flex;gap:10px;align-items:center;flex-wrap:wrap;background:var(--black);
+      color:var(--white);padding:10px 14px;font-size:13.5px}
+  .sim-bar label,.agent-bar label{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;
+      text-transform:uppercase;color:var(--g4)}
+  .sim-bar select,.agent-bar select,.agent-bar input{font:inherit;font-size:13.5px;padding:5px 8px;
+      border:1px solid var(--g6);border-radius:2px;background:var(--white);color:var(--black)}
+  .sim-bar button,.agent-bar button,.agent-send{font-family:var(--mono);font-size:12px;font-weight:700;
+      letter-spacing:.06em;text-transform:uppercase;background:var(--green);color:var(--black);
+      border:1px solid var(--green);border-radius:2px;padding:6px 16px;cursor:pointer}
+  .sim-bar button:hover,.agent-send:hover{background:var(--white)}
+  .sim-out{padding:14px 16px;min-height:120px}
+  .verdict{display:inline-block;font-weight:800;font-size:16px;letter-spacing:.03em;border:2px solid;
+      border-radius:3px;padding:5px 14px;margin:2px 10px 8px 0;text-transform:uppercase}
+  .v-allow{color:var(--green-deep);border-color:var(--green);background:#EBF3DC}
+  .v-just{color:#7a4a06;border-color:var(--orange);background:#FDF0DC}
+  .v-deny{color:var(--red);border-color:var(--red);background:#F9E3E1}
+  .lbl-chip{display:inline-block;font-family:var(--mono);font-size:10.5px;border:1px solid var(--g4);
+      border-radius:999px;padding:2px 10px;margin:0 6px 8px 0;color:var(--g8);background:var(--g1)}
+  .audit-line{font-family:var(--mono);font-size:11.5px;color:var(--green-a);border-top:1px dotted var(--green-a);
+      margin-top:10px;padding-top:8px}
+  .agent-log{height:300px;overflow-y:auto;padding:14px 16px;background:#FAFAF8;display:flex;
+      flex-direction:column;gap:10px}
+  .bub{max-width:80%;padding:9px 13px;border-radius:3px;font-size:14.5px;line-height:1.5}
+  .bub.you{align-self:flex-end;background:var(--black);color:var(--white)}
+  .bub.agent{align-self:flex-start;background:var(--white);border:1px solid var(--g2);border-left:4px solid var(--green)}
+  .bub.err{align-self:flex-start;background:#F9E3E1;border:1px solid var(--red)}
+  .bub .meta2{font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+      color:var(--g6);display:block;margin-bottom:4px}
+  .agent-form{display:flex;gap:8px;padding:10px 14px;border-top:1px solid var(--g2)}
+  .agent-form input{flex:1;font:inherit;font-size:14.5px;padding:8px 10px;border:1px solid var(--g2);border-radius:2px}
   .nav{position:fixed;bottom:18px;right:22px;display:flex;gap:8px;align-items:center;z-index:10}
   .nav button{font-family:var(--mono);font-size:13px;border:1px solid var(--black);background:var(--white);
               padding:6px 14px;cursor:pointer;border-radius:2px}
@@ -87,8 +119,8 @@
   You'll work in a <strong>live, pre-loaded environment</strong> — your instructor's connection
   card gives you the <strong>HR console</strong> (a website where you watch the AI work step by
   step) and the <strong>HR Service Delivery agent</strong> inside M365 Copilot in Teams. The
-  <strong>Make It Real</strong> section (Labs 1–9) walks you through both, one section of this
-  module at a time.</p>
+  <strong>Make It Real</strong> section (Labs 1–11) walks you through both — including a live
+  agent embedded in these very slides — one section of this module at a time.</p>
   <p>By the end of this module you will be able to:</p>
   <ul>
     <li>Explain how an AI <em>agent</em> differs from a chatbot — and why that difference is what makes it safe for HR.</li>
@@ -338,7 +370,7 @@
   with scenario 2 afterward.</p>
   <div class="aside"><b>Why CONFIRM and not touch-free?</b> Both scenarios change something in
   the world. The human confirms <em>what</em> will happen — but doesn't redo the work. Discussion
-  for Lab 9: what concrete harm would touch-free letters enable?</div>
+  for Lab 11: what concrete harm would touch-free letters enable?</div>
   <p><strong>Measures moved:</strong> document turnaround 3 days→instant · self-serve rate
   5%→80% · intake service-level adherence 71%→98% <span style="color:var(--g6)">(synthetic)</span></p>
 </section>
@@ -422,6 +454,36 @@
   diagram if your table wants to go deeper.</p>
 </section>
 
+<!-- ============ 15 · PURVIEW CONCEPT ============ -->
+<section class="slide">
+  <div class="kicker">The controls, up close</div>
+  <h2>Who may see what — labels, permissions, and the record of every attempt</h2>
+  <p>Layer 5's data guardian is <strong>Microsoft Purview</strong>. In production it does three
+  jobs that HR should understand better than anyone:</p>
+  <ol>
+    <li><strong>It labels the data.</strong> Purview scans the refinery and stamps every field
+      with a sensitivity label that travels <em>with</em> the data:
+      <span class="lbl-chip">General</span>
+      <span class="lbl-chip">Confidential · PII</span>
+      <span class="lbl-chip">Highly Confidential · Compensation</span>
+      <span class="lbl-chip">Highly Confidential · ER cases</span></li>
+    <li><strong>It pairs labels with roles.</strong> Who you are decides what a label lets you
+      see: an employee sees their <em>own</em> record; a manager sees defined facts about
+      <em>direct reports only</em>; HR Ops sees cases but <em>not compensation</em>; only the
+      comp analyst role opens compensation. The AI agents hold roles too — and get no special
+      treatment.</li>
+    <li><strong>It records every attempt — allowed or denied.</strong> Asking for something you
+      may not see is not silently ignored; it is a logged event with your name on it. That's
+      what makes the system defensible <em>and</em> what makes insider fishing visible.</li>
+  </ol>
+  <div class="aside"><b>Why this is an HR superpower, not an IT detail:</b> the label-to-role
+  matrix is a set of <em>business decisions</em> — who may see compensation? are ER notes ever
+  self-service? — and HR owns those answers. In the next lab you'll sit in four different chairs
+  and feel the matrix work.</div>
+  <p style="font-size:14px;color:var(--g6)">Your lab environment doesn't have Purview installed —
+  Lab 7 uses a faithful simulator of its decisions, built into these slides.</p>
+</section>
+
 <!-- ============ 15 · COPILOT CONCEPT ============ -->
 <section class="slide">
   <div class="kicker">Where employees meet it</div>
@@ -458,7 +520,7 @@
     <tr><th>On your card</th><th>What it opens</th><th>Pre-loaded with</th></tr>
     <tr><td><b>Console URL</b></td><td>The HR console in your browser</td><td>All nine scenarios · Raj, Ingrid and Lucía's records · the 30-document policy library</td></tr>
     <tr><td><b>Teams sign-in</b></td><td>M365 Copilot with the <b>HR Service Delivery</b> agent already installed</td><td>The same nine scenarios behind nine conversation starters</td></tr>
-    <tr><td><b>Lab worksheet</b></td><td>Paper or shared doc</td><td>The fill-in tables Labs 1–9 ask for</td></tr>
+    <tr><td><b>Lab worksheet</b></td><td>Paper or shared doc</td><td>The fill-in tables Labs 1–11 ask for</td></tr>
   </table>
   <div class="activity"><span class="lbl">Connect — 5 minutes</span>
     <ol>
@@ -473,11 +535,12 @@
   <h3>The lab map — each lab makes one section real</h3>
   <table style="font-size:13.5px">
     <tr><th>Lab</th><th>Makes real</th><th></th><th>Lab</th><th>Makes real</th></tr>
-    <tr><td>1</td><td>The five slots</td><td></td><td>6</td><td>The policy library &amp; its gaps</td></tr>
-    <tr><td>2</td><td>The seven stops</td><td></td><td>7</td><td>Copilot — where employees meet it</td></tr>
-    <tr><td>3</td><td>The checkpoint dial</td><td></td><td>8</td><td>The six layers behind the scenes</td></tr>
-    <tr><td>4</td><td>The receipt trail (ledger)</td><td></td><td>9</td><td>Capstone: design scenario #10</td></tr>
-    <tr><td>5</td><td>The nine-scenario catalog</td><td></td><td colspan="2"></td></tr>
+    <tr><td>1</td><td>The five slots</td><td></td><td>7</td><td>Who may see what — the Purview experience (simulated)</td></tr>
+    <tr><td>2</td><td>The seven stops</td><td></td><td>8</td><td>The chain, live — an agent inside these slides</td></tr>
+    <tr><td>3</td><td>The checkpoint dial</td><td></td><td>9</td><td>Copilot — where employees meet it</td></tr>
+    <tr><td>4</td><td>The receipt trail (ledger)</td><td></td><td>10</td><td>The six layers behind the scenes</td></tr>
+    <tr><td>5</td><td>The nine-scenario catalog</td><td></td><td>11</td><td>Capstone: design scenario #10</td></tr>
+    <tr><td>6</td><td>The policy library &amp; its gaps</td><td></td><td colspan="2"></td></tr>
   </table>
 </section>
 
@@ -552,7 +615,7 @@
   </div>
   <div class="check">you can say why the escalation is a <em>success</em> — and name the two
   measures it moves (deflection <em>and</em> misroute rate). Also write your list of three
-  topics your own HR function should deliberately route to humans — Lab 9 uses it.</div>
+  topics your own HR function should deliberately route to humans — Lab 11 uses it.</div>
 </section>
 
 <!-- ============ 20 · LAB 4 ============ -->
@@ -625,9 +688,98 @@
   library is silent.</div>
 </section>
 
+<!-- ============ LAB 7 · PURVIEW SIMULATOR ============ -->
+<section class="slide">
+  <div class="kicker">Make it real · Lab 7 · 15 min · makes real: “who may see what”</div>
+  <h2>Sit in four chairs — the Purview experience, simulated</h2>
+  <p>Purview isn't installed in your lab environment, so this simulator (built into the slide)
+  reproduces its decisions faithfully: pick a <b>persona</b>, try to pull back information, and
+  see the label, the verdict, and the audit consequence — exactly the experience the real
+  control gives.</p>
+  <div class="sim">
+    <div class="sim-bar">
+      <label>You are</label>
+      <select id="pv-persona">
+        <option value="raj">Raj Patel · Employee</option>
+        <option value="david">David Okafor · Raj's manager</option>
+        <option value="sofia">Sofia Ramos · HR Operations</option>
+        <option value="marcus">Marcus Lee · Compensation analyst</option>
+      </select>
+      <label>You try to pull back</label>
+      <select id="pv-req">
+        <option value="own-balance">My own PTO balance</option>
+        <option value="raj-band">Raj's salary band</option>
+        <option value="ingrid-address">Ingrid's home address</option>
+        <option value="er-notes">The notes on an ER investigation</option>
+        <option value="export-all">An export of ALL employee addresses</option>
+      </select>
+      <button id="pv-go">Request access</button>
+    </div>
+    <div class="sim-out" id="pv-out"><span style="color:var(--g6)">Choose a persona and a
+      request, then press <b>Request access</b>. Try every combination — the pattern is the
+      lesson.</span></div>
+  </div>
+  <div class="activity"><span class="lbl">Your worksheet tasks</span>
+    <ol>
+      <li>Find one request that is <b>allowed for one persona and denied for another</b> — write
+        down which label made the difference.</li>
+      <li>Find the request that is <b>denied for everyone</b> — why does even the most
+        privileged role fail here?</li>
+      <li>Find Sofia's denial. What does "even HR Ops can't see compensation" tell a works
+        council about how the system is built?</li>
+    </ol>
+  </div>
+  <div class="check">you can explain why a <em>denied</em> attempt still writing an audit entry
+  is a feature — for the employee, for HR, and for the auditor.</div>
+</section>
+
+<!-- ============ LAB 8 · LIVE AGENT ============ -->
+<section class="slide">
+  <div class="kicker">Make it real · Lab 8 · 15 min · makes real: “the chain, live”</div>
+  <h2>Talk to the live agent — right here in the slides</h2>
+  <p>This panel is connected to your <strong>live lab environment</strong> — the same chains,
+  the same policy library, the same checkpoints as the console. Ask in your own words; the
+  agent routes your question exactly the way the Copilot agent does, and shows you its receipt.</p>
+  <div class="agent">
+    <div class="agent-bar">
+      <label>Environment</label><input id="ag-base" value="http://localhost:8000" size="24" title="From your connection card">
+      <label>Asking as</label>
+      <select id="ag-emp">
+        <option value="E1001">Raj Patel · US-CA</option>
+        <option value="E1002">Ingrid Weber · DE-BY</option>
+        <option value="E1003">Lucía Álvarez · MX</option>
+      </select>
+      <span id="ag-status" style="font-family:var(--mono);font-size:11px;color:var(--g4)">not connected</span>
+    </div>
+    <div class="agent-log" id="ag-log">
+      <div class="bub agent"><span class="meta2">HR Service Delivery agent</span>
+        Hello! Ask me an everyday HR question — vacation, leave, a letter, a life event, a wrong
+        address, or "where is my request?". I only answer from the policy library, and I'll show
+        you which scenario handled you and what happened at the checkpoint.</div>
+    </div>
+    <form class="agent-form" id="ag-form">
+      <input id="ag-q" placeholder="e.g.  How many vacation days can I carry over into next year?" autocomplete="off">
+      <button class="agent-send" type="submit">Send</button>
+    </form>
+  </div>
+  <div class="activity"><span class="lbl">Run these five, then improvise</span>
+    <ol style="margin-top:2px">
+      <li>A vacation question in your own words — find the <b>source citation</b>.</li>
+      <li>"Where is my tuition reimbursement request?"</li>
+      <li>"I need an employment letter for my landlord."</li>
+      <li>"My paycheck was garnished incorrectly — who do I talk to?" — watch the honest
+        <b>escalation</b>.</li>
+      <li>Switch to <b>Lucía</b> and ask "¿Cuántos días de vacaciones me quedan?"</li>
+    </ol>
+  </div>
+  <div class="check">the agent told you, every single time, <em>which scenario</em> served you
+  and <em>what the checkpoint decided</em> — the transparency a black-box chatbot can never give.
+  If the panel says it can't connect, check the environment address on your connection card.</div>
+</section>
+
 <!-- ============ 23 · LAB 7 ============ -->
 <section class="slide">
-  <div class="kicker">Make it real · Lab 7 · 20 min · makes real: “where employees meet it”</div>
+  <div class="kicker">Make it real · Lab 9 · 20 min · makes real: “where employees meet it”</div>
   <h2>Copilot in Teams — inspect the agent like an auditor</h2>
   <div class="activity"><span class="lbl">Step by step — in Teams (the agent is pre-installed for you)</span>
     <ol>
@@ -654,9 +806,9 @@
 
 <!-- ============ 24 · LAB 8 ============ -->
 <section class="slide">
-  <div class="kicker">Make it real · Lab 8 · 15 min · makes real: “the six layers”</div>
+  <div class="kicker">Make it real · Lab 10 · 15 min · makes real: “the six layers”</div>
   <h2>Layer scavenger hunt — evidence for each layer, from your own runs</h2>
-  <p>Using only what you've already seen in Labs 1–7, fill the right-hand column of the layer
+  <p>Using only what you've already seen in Labs 1–9, fill the right-hand column of the layer
   table on your worksheet:</p>
   <table style="font-size:14px">
     <tr><th>Layer</th><th>Your evidence question</th></tr>
@@ -678,7 +830,7 @@
 
 <!-- ============ 25 · LAB 9 · CAPSTONE ============ -->
 <section class="slide">
-  <div class="kicker">Make it real · Lab 9 · Capstone · 30 min · pen and paper</div>
+  <div class="kicker">Make it real · Lab 11 · Capstone · 30 min · pen and paper</div>
   <h2>Be the process owner: design scenario #10</h2>
   <p>In pairs: choose an everyday HR request this module doesn't cover — holiday calendar
   questions, expense-policy Q&amp;A, "who do I ask about X", onboarding buddy FAQ, badge
@@ -714,13 +866,16 @@
     <tr><td>4</td><td>The receipt trail</td><td>Fourteen facts copied; the audit questions answered</td></tr>
     <tr><td>5</td><td>The catalog</td><td>Nine runs scored; the CONFIRM pattern spotted</td></tr>
     <tr><td>6</td><td>The library &amp; its gaps</td><td>Same-source citations; one forced gap; one governed gap</td></tr>
-    <tr><td>7</td><td>Copilot</td><td>Four starters verified; two trust tests passed</td></tr>
-    <tr><td>8</td><td>The six layers</td><td>Evidence named for each layer from your own runs</td></tr>
-    <tr><td>9</td><td>Scenario #10</td><td>A one-page specification with a defended checkpoint</td></tr>
+    <tr><td>7</td><td>Who may see what (Purview, simulated)</td><td>One allow-vs-deny pair explained by its label; the everyone-denied case; Sofia's comp denial</td></tr>
+    <tr><td>8</td><td>The live agent in the slides</td><td>Five questions answered with scenario + checkpoint shown, incl. one escalation and one in Spanish</td></tr>
+    <tr><td>9</td><td>Copilot</td><td>Four starters verified; two trust tests passed</td></tr>
+    <tr><td>10</td><td>The six layers</td><td>Evidence named for each layer from your own runs</td></tr>
+    <tr><td>11</td><td>Scenario #10</td><td>A one-page specification with a defended checkpoint</td></tr>
   </table>
-  <p>Nine ticks means you didn't just hear how governed HR agents work — you <strong>operated
-  one</strong>: ran it, audited it, probed its limits, met it in Teams, and specified its next
-  scenario. Hand your worksheet to your instructor for the completion record.</p>
+  <p>Eleven ticks means you didn't just hear how governed HR agents work — you <strong>operated
+  one</strong>: ran it, audited it, tested its permissions, probed its limits, talked to it live,
+  met it in Teams, and specified its next scenario. Hand your worksheet to your instructor for
+  the completion record.</p>
 </section>
 
 <!-- ============ 20 · GLOSSARY ============ -->
@@ -761,7 +916,7 @@
     <tr><th>Item</th><th>Where</th></tr>
     <tr><td>This deck (works as a printed handout — Ctrl+P)</td><td>Provided by your instructor</td></tr>
     <tr><td>HR console + Copilot agent access</td><td>Links from your instructor (class environment)</td></tr>
-    <tr><td>Your Lab 9 one-pager + completed lab worksheet</td><td>Yours — a real scenario specification and your completion record; bring both to your practice lead</td></tr>
+    <tr><td>Your Lab 11 one-pager + completed lab worksheet</td><td>Yours — a real scenario specification and your completion record; bring both to your practice lead</td></tr>
     <tr><td>Deeper technical track (code, labs, Azure, packaging)</td><td>Ask your instructor about the technical edition of this module</td></tr>
   </table>
   <p style="font-size:13px;color:var(--g6)">All figures are synthetic reference figures.
@@ -786,10 +941,106 @@
   document.getElementById('prev').onclick=()=>show(i-1);
   document.getElementById('next').onclick=()=>show(i+1);
   addEventListener('keydown',e=>{
+    if(e.target.tagName==='INPUT'||e.target.tagName==='SELECT')return;
     if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')show(i+1);
     if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);
     if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);});
   show(parseInt(location.hash.slice(1))-1||0);
+
+  /* ---------- Lab 7 · Purview permission simulator (client-side, faithful) ---------- */
+  const PERSONAS={raj:'Raj Patel (Employee)',david:'David Okafor (Manager)',
+                  sofia:'Sofia Ramos (HR Operations)',marcus:'Marcus Lee (Compensation)'};
+  const ALLOW={v:'v-allow',t:'✓ Allowed'},JUST={v:'v-just',t:'△ Allowed · justification required'},
+        DENY={v:'v-deny',t:'✕ Denied'};
+  const MATRIX={
+    'own-balance':{label:'General · self-scope',
+      raj:[ALLOW,'Your own record, one person at a time — the default everyone gets.'],
+      david:[ALLOW,'Your own record. Being a manager adds nothing here — self-scope is self-scope.'],
+      sofia:[ALLOW,'Your own record, same as any employee.'],
+      marcus:[ALLOW,'Your own record, same as any employee.']},
+    'raj-band':{label:'Highly Confidential · Compensation',
+      raj:[ALLOW,'It is YOUR band — your own compensation facts are visible to you.'],
+      david:[ALLOW,'Raj is your direct report: managers see the band (not pay history) for direct reports only. Ask about anyone else and this flips to Denied.'],
+      sofia:[DENY,'HR Operations does NOT include compensation. Comp lives with Total Rewards — a deliberate separation even inside HR.'],
+      marcus:[ALLOW,'Compensation analyst role — in scope, and the access is still logged.']},
+    'ingrid-address':{label:'Confidential · PII',
+      raj:[DENY,'Another employee’s personal data. No role reason — and this attempt is now on the audit log with your name on it.'],
+      david:[DENY,'Ingrid is not your report. “Manager” grants nothing about people outside your team.'],
+      sofia:[JUST,'HR Data duties can require PII — but case-by-case: Purview demands a business justification, records it, and the access is reviewable.'],
+      marcus:[DENY,'Compensation role ≠ PII access. Roles are narrow on purpose.']},
+    'er-notes':{label:'Highly Confidential · ER cases',
+      raj:[DENY,'Employee-relations case files are never self-service.'],
+      david:[DENY,'Not even managers — that protects everyone involved, including you.'],
+      sofia:[DENY,'HR Ops ROUTES ER matters; only the ER specialist role opens case notes. Routing rights ≠ reading rights.'],
+      marcus:[DENY,'Out of role entirely.']},
+    'export-all':{label:'Bulk export · PII aggregate',
+      raj:[DENY,'Bulk PII export is refused for every role. One-person-at-a-time is the architecture.'],
+      david:[DENY,'Bulk PII export is refused for every role — there is no “manager of everyone”.'],
+      sofia:[DENY,'Even HR: bulk export needs a data-protection approval workflow. This attempt was flagged, not just declined.'],
+      marcus:[DENY,'Even analytics works on masked, aggregated views — never a raw address export.']}
+  };
+  const pvGo=document.getElementById('pv-go');
+  if(pvGo)pvGo.onclick=()=>{
+    const p=document.getElementById('pv-persona').value,r=document.getElementById('pv-req').value;
+    const e=MATRIX[r],[verdict,reason]=e[p];
+    document.getElementById('pv-out').innerHTML=
+      '<span class="lbl-chip">'+e.label+'</span><br>'+
+      '<span class="verdict '+verdict.v+'">'+verdict.t+'</span>'+
+      '<p style="margin:4px 0 0">'+reason+'</p>'+
+      '<div class="audit-line">purview audit → logged: '+PERSONAS[p]+' · “'+
+      document.getElementById('pv-req').selectedOptions[0].text+'” · '+verdict.t.replace(/^[^ ]+ /,'')+
+      ' · '+new Date().toLocaleTimeString()+' — every attempt is recorded, allowed or not</div>';
+  };
+
+  /* ---------- Lab 8 · live agent panel (calls the pre-loaded environment) ---------- */
+  const agForm=document.getElementById('ag-form');
+  if(agForm){
+    const base=()=>document.getElementById('ag-base').value.replace(/\/+$/,'');
+    const log=document.getElementById('ag-log'),status=document.getElementById('ag-status');
+    const esc=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const md=s=>esc(s).replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    const bub=(cls,meta,html)=>{const d=document.createElement('div');d.className='bub '+cls;
+      d.innerHTML=(meta?'<span class="meta2">'+meta+'</span>':'')+html;log.appendChild(d);
+      log.scrollTop=log.scrollHeight;return d;};
+    const ping=async()=>{try{const r=await fetch(base()+'/healthz');const j=await r.json();
+        status.textContent='connected · '+j.runtime+' mode';status.style.color='#86BC25';}
+      catch{status.textContent='not connected — check the address';status.style.color='#ED8B00';}};
+    document.getElementById('ag-base').addEventListener('change',ping);ping();
+    const route=t=>{const s=t.toLowerCase();
+      if(/[¿¡]|á|é|í|ó|ú|ñ|vacaciones|días|urlaub|krank|ü|ö|ß/.test(s))return'hr-hrsd-09';
+      if(/garnish|paycheck|payroll|deduction|who do i talk|who should i|complaint|dispute/.test(s))return'hr-hrsd-08';
+      if(/letter|verification|verify|mortgage|landlord|visa/.test(s))return'hr-hrsd-06';
+      if(/\bwrong\b|correct my|update my|change my|fix my/.test(s))return'hr-hrsd-07';
+      if(/where is|status|track|progress|my request/.test(s))return'hr-hrsd-02';
+      if(/baby|birth|adopt|marri|wedding|moving|moved|relocat|bereave|passed away|funeral/.test(s))return'hr-hrsd-04';
+      if(/care for|caring|absence|surgery|medical leave|parental|time off to/.test(s))return'hr-hrsd-05';
+      if(/find |search |which policy|which document|show me the/.test(s))return'hr-hrsd-03';
+      if(/vacation|pto|carry|holiday|polic|benefit|401|insurance|expense|sick|reimburs|payslip|stipend|leave/.test(s))return'hr-hrsd-01';
+      return'hr-hrsd-08';};
+    agForm.addEventListener('submit',async ev=>{
+      ev.preventDefault();
+      const q=document.getElementById('ag-q');const text=q.value.trim();if(!text)return;
+      q.value='';bub('you','',esc(text));
+      const scenario=route(text);
+      const wait=bub('agent','HR Service Delivery agent','running the chain…');
+      try{
+        const r=await fetch(base()+'/runs',{method:'POST',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({scenario_id:scenario,
+            employee_id:document.getElementById('ag-emp').value,text})});
+        if(!r.ok)throw new Error(r.status);
+        const j=await r.json();
+        const gate=j.gate.escalated?'★ escalated → '+(j.escalation_route||'a specialist')
+                  :(j.gate.approved?'✓ approved ('+j.gate.mode+')':'… pending approval');
+        wait.innerHTML='<span class="meta2">'+esc(j.scenario_id)+' · '+esc(j.scenario_name)+
+          ' · checkpoint: '+esc(gate)+'</span>'+md(j.answer);
+      }catch(err){
+        wait.className='bub err';
+        wait.innerHTML='<span class="meta2">connection</span>I can’t reach the lab environment at <b>'+
+          esc(base())+'</b>. Check the environment address on your connection card, then try again.';
+      }
+    });
+  }
 </script>
 </body>
 </html>

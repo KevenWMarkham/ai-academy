@@ -21,6 +21,11 @@ def test_healthz(client) -> None:
     assert body["status"] == "ok"
 
 
+def test_cors_open_for_training_decks(client) -> None:
+    response = client.get("/scenarios", headers={"Origin": "http://localhost:8090"})
+    assert response.headers.get("access-control-allow-origin") == "*"
+
+
 def test_list_scenarios_returns_all_nine(client) -> None:
     response = client.get("/scenarios")
     assert response.status_code == 200
