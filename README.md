@@ -57,6 +57,9 @@ AI-Academy/
 │   ├── appPackage/               ← declarative agent (v1.7) + API plugin (v2.4) + OpenAPI
 │   └── package.ps1               ← stamps the API URL, zips the uploadable package
 ├── infra/                        ← Bicep + deploy.ps1: API on Azure Container Apps
+├── training/
+│   ├── trainer-deck.html         ← instructor slide deck: architecture walkthrough, demo scripts, notes
+│   └── student-deck.html         ← student slide deck: labs 0–7 + capstone, demo links per section
 ├── scenarios/
 │   └── hr-service-delivery/      ← one teaching brief per scenario (hr-hrsd-01 … 09)
 ├── data/

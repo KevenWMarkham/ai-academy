@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Services Module · Student Deck</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#86BC25; --green-a:#26890D; --green-d:#046A38; --green-deep:#2C5234;
+    --black:#000; --white:#fff; --g1:#F0F0F0; --g2:#D0D0CE; --g4:#97999B; --g6:#63666A; --g8:#333;
+    --blue:#007CB0; --orange:#ED8B00; --red:#DA291C;
+    --sans:'Open Sans','Segoe UI',Verdana,sans-serif; --mono:'Roboto Mono',Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--sans);color:var(--black);background:var(--g1);font-size:17px;line-height:1.5}
+  .topbar{position:fixed;top:0;left:0;right:0;height:46px;background:var(--black);color:var(--white);
+    display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:10}
+  .wordmark{font-weight:800;font-size:20px;letter-spacing:-.02em}
+  .wordmark b{color:var(--green)}
+  .meta{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--g4)}
+  .progress{position:fixed;top:46px;left:0;height:3px;background:var(--green);z-index:10;transition:width .2s}
+  .slide{display:none;min-height:100vh;padding:86px 70px 70px;background:var(--white);max-width:1200px;margin:0 auto}
+  .slide.active{display:block}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--green-d);font-weight:600;margin-bottom:6px}
+  h1{font-size:44px;font-weight:800;letter-spacing:-.025em;line-height:1.05;margin-bottom:18px}
+  h1 .dot{color:var(--green)}
+  h2{font-size:30px;font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+  h3{font-size:17px;font-weight:700;margin:16px 0 6px}
+  p{margin:8px 0;max-width:70ch}
+  ul,ol{margin:8px 0 8px 22px;max-width:75ch}
+  li{margin:5px 0}
+  table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}
+  th{text-align:left;border-bottom:2px solid var(--black);padding:7px 10px 7px 0;font-size:12px;
+     font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--g6)}
+  td{border-bottom:1px solid var(--g2);padding:7px 10px 7px 0;vertical-align:top}
+  code,kbd{font-family:var(--mono);font-size:.85em;background:var(--g1);padding:1px 6px;border-radius:2px}
+  pre{font-family:var(--mono);font-size:13.5px;background:#111;color:#e8e8e8;padding:14px 18px;
+      border-left:4px solid var(--green);border-radius:0 3px 3px 0;overflow-x:auto;margin:12px 0;line-height:1.55}
+  pre .c{color:#86BC25}
+  a{color:var(--green-d);font-weight:600}
+  .lab{border:1px solid var(--black);border-left:6px solid var(--green);background:var(--g1);
+       padding:14px 18px;margin:16px 0;border-radius:0 3px 3px 0;font-size:15px}
+  .lab .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+            font-weight:700;display:block;margin-bottom:6px}
+  .lab .lbl::before{content:"● ";color:var(--green)}
+  .links{border-top:2px solid var(--black);margin-top:22px;padding-top:10px;font-size:14px}
+  .links .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+              color:var(--g6);font-weight:700;display:block;margin-bottom:6px}
+  .check{border-left:4px solid var(--green-a);padding:8px 14px;background:#F3F8E8;margin:10px 0;font-size:14.5px}
+  .check::before{content:"✓ CHECKPOINT — ";font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--green-a);font-weight:700}
+  .pill{font-family:var(--mono);font-size:10.5px;border:1px solid currentColor;border-radius:999px;padding:1px 8px;white-space:nowrap}
+  .zt{color:var(--green-d)} .ack{color:var(--blue)} .esc{color:var(--orange)} .hard{color:var(--red)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .nav{position:fixed;bottom:18px;right:22px;display:flex;gap:8px;align-items:center;z-index:10}
+  .nav button{font-family:var(--mono);font-size:13px;border:1px solid var(--black);background:var(--white);
+              padding:6px 14px;cursor:pointer;border-radius:2px}
+  .nav button:hover{background:var(--green);border-color:var(--green)}
+  .count{font-family:var(--mono);font-size:12px;color:var(--g6)}
+  .arch{width:100%;border:1px solid var(--g2)}
+  .footer-hint{position:fixed;bottom:18px;left:22px;font-family:var(--mono);font-size:11px;color:var(--g4);z-index:10}
+  @media print{
+    .topbar,.nav,.progress,.footer-hint{display:none}
+    .slide{display:block;min-height:auto;page-break-after:always;padding:30px 40px}
+    body{background:#fff}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="wordmark">Deloitte<b>.</b></span>
+  <span class="meta">AI Academy · HR Services Module · Student Deck</span>
+</div>
+<div class="progress" id="bar"></div>
+
+<!-- ============================ 1 · TITLE ============================ -->
+<section class="slide">
+  <div class="kicker">AI Academy</div>
+  <h1>HR Service Delivery<br>Scenario Chains in Agentic Orchestration<span class="dot">.</span></h1>
+  <p><strong>What you'll be able to do by the end:</strong> design, run, and extend an agentic
+  scenario chain — grounded on governed data, gated by a human where it matters, evidenced in an
+  audit ledger, attributed to a KPI — and surface it to employees inside <strong>M365 Copilot</strong>.</p>
+  <p>Everything is hands-on. Labs 0–6 run entirely on your laptop with <strong>no cloud
+  credentials</strong> (deterministic mock mode). Lab 7 connects your work to a real Copilot in
+  the test tenant.</p>
+  <div class="links"><span class="lbl">Demo &amp; resource links · start here</span>
+    Repo (clone this): <a href="https://github.com/KevenWMarkham/ai-academy">github.com/KevenWMarkham/ai-academy</a> ·
+    Course README: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/README.md">README.md</a> ·
+    All curriculum docs: <a href="https://github.com/KevenWMarkham/ai-academy/tree/main/docs">/docs</a>
+  </div>
+</section>
+
+<!-- ============================ 2 · LAB 0 ============================ -->
+<section class="slide">
+  <div class="kicker">Lab 0 · Setup</div>
+  <h2>Get the chain running on your machine (15 min)</h2>
+  <pre>git clone https://github.com/KevenWMarkham/ai-academy.git
+cd ai-academy
+
+<span class="c"># Python side (3.11+) — pick one:</span>
+uv sync                                      # if you have uv
+py -m venv .venv &amp;&amp; .venv\Scripts\Activate.ps1
+pip install -e packages/academy-core -e packages/academy-services `
+            -e packages/academy-scenarios-hrsd -e apps/academy-cli `
+            -e apps/academy-api pytest httpx
+
+<span class="c"># Prove it works:</span>
+pytest -q                                    # expect: 54 passed, 1 skipped
+academy list                                 # the nine scenarios</pre>
+  <div class="check">54 tests green and <code>academy list</code> prints 9 scenarios. If not, fix
+  this before anything else — every later lab builds on it.</div>
+  <div class="links"><span class="lbl">Demo links · this lab</span>
+    Setup guide: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/README.md">README → Quickstart</a> ·
+    Env template (optional, not needed today): <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/.env.example">.env.example</a>
+  </div>
+</section>
+
+<!-- ============================ 3 · CORE IDEA ============================ -->
+<section class="slide">
+  <div class="kicker">Concept 1</div>
+  <h2>The chain is the unit of value — not the model</h2>
+  <pre>Business objective  →  Use case      →  Persona          →  Scenario chain        →  KPI moved
+"cut HR ticket load"   policy Q&amp;A        Raj (employee)      Assess→Classify→          ticket deflection
+                                          Sofia (HR Ops)      Quantify→Decide→          0% → 55%
+                                                              ★HITL(16)→Act→Learn</pre>
+  <p>Memorize the five slots. An AI service answering a question is a demo; a
+  <strong>scenario chain</strong> is a production system: agents in named roles, on governed
+  data, gated by a human where it matters, leaving evidence at every step, moving a KPI a named
+  business persona owns.</p>
+  <p><strong>The test you'll be held to all day (and in the capstone):</strong> if you cannot
+  fill in all five slots for a scenario, it is not ready to build.</p>
+  <div class="links"><span class="lbl">Demo links · this concept</span>
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/01-scenario-chains.md">docs/01 · Scenario chains</a> ·
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/03-personas-kpis.md">docs/03 · Personas → KPIs</a>
+  </div>
+</section>
+
+<!-- ============================ 4 · CHAIN + ROLES ============================ -->
+<section class="slide">
+  <div class="kicker">Concept 2</div>
+  <h2>The canonical 24-step chain and the six-role runtime</h2>
+  <p>Every scenario specializes the same 24-step backbone: <strong>W1 foundation</strong> (1–10,
+  the data/identity/evidence planes built once), <strong>W2 pilot</strong> (11–18, what you run
+  today), <strong>W3 scale &amp; fuse</strong> (19–24). Exactly one enforceable human gate, always
+  at <strong>step 16</strong>.</p>
+  <pre>ASSESS(13) → CLASSIFY(14) → QUANTIFY(15) → DECIDE(16) → ★ HITL gate(16) → ACT(17) → LEARN(23)</pre>
+  <ul>
+    <li><strong>Gate modes:</strong> <span class="pill zt">ZERO_TOUCH</span> auto-approved, fully evidenced ·
+      <span class="pill ack">ACK_ONLY</span> a human confirms, doesn't redesign ·
+      <span class="pill esc">ESCALATION</span> auto above confidence 0.70, else routed to a human with context ·
+      <span class="pill hard">HITL</span> hard gate, a named human approves.</li>
+    <li><strong>Evidence:</strong> every executed step writes one <strong>14-field ledger row</strong>.
+      If a step didn't write a row, it didn't happen.</li>
+    <li><strong>ACT is structurally unreachable without an approved gate</strong> — the runtime
+      enforces it, not the scenario author. Read it yourself: the whole engine is ~200 lines.</li>
+  </ul>
+  <div class="links"><span class="lbl">Demo links · this concept</span>
+    Print the backbone: <code>academy chain</code> ·
+    The engine: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/packages/academy-core/src/academy_core/runtime.py">academy_core/runtime.py</a> ·
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/04-hitl-and-ledger.md">docs/04 · HITL &amp; the ledger</a>
+  </div>
+</section>
+
+<!-- ============================ 5 · LAB 1 ============================ -->
+<section class="slide">
+  <div class="kicker">Lab 1 · Trace a run</div>
+  <h2>Run your first chain and read every line (20 min)</h2>
+  <pre>academy run hr-hrsd-01
+<span class="c"># then try your own question:</span>
+academy run hr-hrsd-01 --text "Can I cash out unused PTO when I leave?"</pre>
+  <p><strong>Task:</strong> for each ledger row in the trace, write one sentence mapping it to the
+  canonical step it executes (<code>academy chain</code> prints the backbone). Note which W1 plane
+  each step silently depends on — where did the clean employee record come from? The policy text?</p>
+  <div class="check">You can point at: the trigger (11), the orchestrator dispatch (12), all four
+  decision roles, the ★ gate row at step 16, the ACT, the LEARN, and the KPI rollup (18) — and the
+  answer carries a <code>[source: pto]</code> citation with Raj's own balance and his US-CA rider.</div>
+  <div class="links"><span class="lbl">Demo links · this lab</span>
+    Lab definition: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/06-student-labs.md">docs/06 · Lab 1</a> ·
+    Scenario brief: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-01-policy-qa.md">hr-hrsd-01 · Policy Q&amp;A</a> ·
+    Scenario code: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/packages/academy-scenarios-hrsd/src/academy_hrsd/hrsd01_policy_qa.py">hrsd01_policy_qa.py</a>
+  </div>
+</section>
+
+<!-- ============================ 6 · SCENARIOS ============================ -->
+<section class="slide">
+  <div class="kicker">Concept 3</div>
+  <h2>The nine HR Service Delivery scenarios</h2>
+  <table style="font-size:13.5px">
+    <tr><th>ID</th><th>Scenario</th><th>Chain focus</th><th>Gate</th><th>Brief (click)</th></tr>
+    <tr><td>hr-hrsd-01</td><td>Policy Q&amp;A</td><td>Classify</td><td><span class="pill zt">ZT</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-01-policy-qa.md">brief</a></td></tr>
+    <tr><td>hr-hrsd-02</td><td>Status lookup</td><td>Assess</td><td><span class="pill zt">ZT</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-02-status-lookup.md">brief</a></td></tr>
+    <tr><td>hr-hrsd-03</td><td>HR knowledge-base search</td><td>Classify</td><td><span class="pill zt">ZT</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-03-kb-search.md">brief</a></td></tr>
+    <tr><td>hr-hrsd-04</td><td>Life-event guidance</td><td>Classify → Decide</td><td><span class="pill zt">ZT</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-04-life-event.md">brief</a></td></tr>
+    <tr><td>hr-hrsd-05</td><td>Leave &amp; absence guidance</td><td>Classify → Decide</td><td><span class="pill zt">ZT</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-05-leave-absence.md">brief</a></td></tr>
+    <tr><td>hr-hrsd-06</td><td>Letter &amp; document generation</td><td>Act</td><td><span class="pill ack">ACK</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-06-doc-generation.md">brief</a></td></tr>
+    <tr><td>hr-hrsd-07</td><td>Data-correction request intake</td><td>Act</td><td><span class="pill ack">ACK</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-07-data-correction.md">brief</a></td></tr>
+    <tr><td>hr-hrsd-08</td><td>Ticket deflection / smart routing</td><td>Decide</td><td><span class="pill esc">ESC</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-08-deflection.md">brief</a></td></tr>
+    <tr><td>hr-hrsd-09</td><td>Multilingual support</td><td>Classify</td><td><span class="pill zt">ZT</span></td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-09-multilingual.md">brief</a></td></tr>
+  </table>
+  <p><strong>Personas:</strong> Raj Patel (employee — asks) and Sofia Ramos (HR Ops — owns the
+  KPIs, catches escalations). Every brief names its KPIs with synthetic baseline→target figures.</p>
+  <div class="links"><span class="lbl">Demo links · this concept</span>
+    All briefs: <a href="https://github.com/KevenWMarkham/ai-academy/tree/main/scenarios/hr-service-delivery">/scenarios/hr-service-delivery</a> ·
+    Try any: <code>academy run hr-hrsd-0X</code> · Full spec: <code>academy show hr-hrsd-0X</code> ·
+    KPI table: <code>academy kpi</code>
+  </div>
+</section>
+
+<!-- ============================ 7 · LABS 2–3 ============================ -->
+<section class="slide">
+  <div class="kicker">Labs 2–3 · Grounding and gates</div>
+  <h2>Break the grounding, then watch the gate decide (30 min)</h2>
+  <div class="lab"><span class="lbl">Lab 2 — break the grounding</span>
+    <pre>academy run hr-hrsd-01 --text "Can I expense my dog's daycare?"</pre>
+    Explain in half a page: what score did CLASSIFY produce, what did DECIDE do, what did LEARN
+    record — and why is this <em>not</em> a failure of the chain? Cite ledger rows.
+  </div>
+  <div class="lab"><span class="lbl">Lab 3 — the gate is a risk decision</span>
+    <pre>academy run hr-hrsd-08                                          <span class="c"># escalates</span>
+academy run hr-hrsd-08 --text "How many PTO days can I carry over?"   <span class="c"># resolves</span></pre>
+    Diff the two step-16 gate rows. Then argue in one page: should hr-hrsd-06 (letters) be
+    ZERO_TOUCH instead of ACK_ONLY? Name the <strong>concrete harm scenario</strong> that
+    justifies your answer.
+  </div>
+  <div class="check">Lab 3: first run shows <code>ESCALATION · confidence 0.00 &lt; 0.7 →
+  escalated to Payroll Operations</code> and the answer tells the employee their context travels
+  with the case. Escalation is an outcome, not a failure.</div>
+  <div class="links"><span class="lbl">Demo links · these labs</span>
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/06-student-labs.md">docs/06 · Labs 2–3</a> ·
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/hr-hrsd-08-deflection.md">hr-hrsd-08 brief</a> ·
+    Export evidence: <code>academy run hr-hrsd-08 --ledger runs/escalation.jsonl</code>
+  </div>
+</section>
+
+<!-- ============================ 8 · ARCHITECTURE (SUMMARY) ============================ -->
+<section class="slide">
+  <div class="kicker">Concept 4</div>
+  <h2>How it works in production — six layers</h2>
+  <img class="arch" src="../docs/diagrams/hrsd-implementation-architecture.svg" alt="Six-layer implementation architecture diagram">
+  <p style="font-size:14.5px">Sources (Workday, SuccessFactors, ServiceNow) feed the
+  <strong>OneLake medallion</strong> (Bronze raw → Silver canonical/PII-tokenized → Gold
+  agent-safe views); the KB pipeline embeds into <strong>Azure AI Search</strong>; the
+  <strong>Container Apps runtime</strong> (API + MAF ChainRunner + MCP tools + gate) executes
+  chains, writing every step to the <strong>PostgreSQL ledger</strong>; Entra/Purview/Monitor
+  govern; employees consume via Copilot, the dashboard, Adaptive Cards, and Power BI. Your
+  laptop's <code>data/</code> folder plays the Gold layer — you've been using this architecture
+  all morning.</p>
+  <div class="links"><span class="lbl">Demo links · this concept</span>
+    Full architecture doc (component inventory, all 29 integrations, record trace):
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/09-implementation-architecture.md">docs/09</a> ·
+    Diagram: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/diagrams/hrsd-implementation-architecture.svg">SVG</a>
+  </div>
+</section>
+
+<!-- ============================ 9 · KB CONCEPT ============================ -->
+<section class="slide">
+  <div class="kicker">Concept 5</div>
+  <h2>Grounding: the knowledge base and vector search</h2>
+  <ul>
+    <li><strong>30 synthetic documents</strong> in <code>data/kb/</code> — policies, guides, FAQs,
+      localized (es/de). Frontmatter metadata on every doc, including <code>scenarios:</code> —
+      which chains this document grounds. A test fails if any scenario loses coverage.</li>
+    <li><strong>Chunked at sections → 132 records</strong>, each with an embedded
+      <code>content_vector</code> column.</li>
+    <li><strong>Offline vector search works today:</strong> a deterministic 256-dim feature-hash
+      embedding — real cosine similarity, zero credentials. Live mode swaps in
+      <code>text-embedding-3-small</code> (1536-dim) and <strong>Azure AI Search hybrid</strong>
+      retrieval (BM25 + kNN over an HNSW index) — same code path.</li>
+    <li><strong>Design gap to notice:</strong> garnishment topics are deliberately NOT in the KB —
+      that's why hr-hrsd-08 escalates. Coverage is a governance decision, not an accident.</li>
+  </ul>
+  <div class="links"><span class="lbl">Demo links · this concept</span>
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/08-knowledge-base.md">docs/08 · Knowledge base</a> ·
+    Corpus: <a href="https://github.com/KevenWMarkham/ai-academy/tree/main/data/kb">/data/kb</a> ·
+    Pipeline code: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/packages/academy-services/src/academy_services/kb.py">kb.py</a> ·
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/packages/academy-services/src/academy_services/azure_search.py">azure_search.py</a>
+  </div>
+</section>
+
+<!-- ============================ 10 · LAB 4 ============================ -->
+<section class="slide">
+  <div class="kicker">Lab 4 · The knowledge base</div>
+  <h2>Search it three ways, then build the vector index (30 min)</h2>
+  <pre>academy kb stats                                  <span class="c"># corpus + per-scenario coverage table</span>
+academy kb search "time away when my mother is ill"
+academy kb search "time away when my mother is ill" --vector
+academy kb build --vectors                        <span class="c"># writes chunks.jsonl with content_vector</span></pre>
+  <p><strong>Tasks:</strong></p>
+  <ol>
+    <li>Compare the keyword and vector rankings for the query above. The mock embedding is
+      <em>soft-lexical</em> (feature-hashed) — explain why its ranking differs from keyword's,
+      and what a live semantic embedding would do differently.</li>
+    <li>Open <code>data/kb/index/chunks.jsonl</code> and inspect one record: find the metadata
+      fields and the 256 floats of its <code>content_vector</code>.</li>
+    <li><em>Stretch (needs an Azure AI Search service):</em> set <code>AZURE_SEARCH_*</code> in
+      <code>.env</code> and run <code>academy kb push</code> — it creates the HNSW index and
+      uploads all 132 chunks.</li>
+  </ol>
+  <div class="check"><code>kb stats</code> shows 30 documents, 132 chunks, and all nine scenarios
+  covered. Your jsonl record has <code>id, doc_id, title, section, content, scenarios,
+  content_vector</code>.</div>
+  <div class="links"><span class="lbl">Demo links · this lab</span>
+    <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/08-knowledge-base.md">docs/08 · labs section</a> ·
+    Index schema (what <code>kb push</code> creates): <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/packages/academy-services/src/academy_services/azure_search.py">azure_search.py · index_definition()</a>
+  </div>
+</section>
+
+<!-- ============================ 11 · LAB 5 ============================ -->
+<section class="slide">
+  <div class="kicker">Lab 5 · The dashboard</div>
+  <h2>Watch the chain execute visually (20 min)</h2>
+  <pre>npm install          <span class="c"># once, repo root</span>
+npm run dev          <span class="c"># starts api (:8000) + web (:5173) together</span></pre>
+  <p>Open <a href="http://localhost:5173">http://localhost:5173</a> (if your corporate proxy
+  dislikes localhost, use <a href="http://127.0.0.1:5173">http://127.0.0.1:5173</a>).</p>
+  <p><strong>Tasks:</strong> pick <em>Policy Q&amp;A</em> from the scenario register and run it —
+  read the ledger register and the green <strong>✓ APPROVED</strong> stamp. Then run
+  <em>Ticket deflection</em> with its default sample and watch the amber
+  <strong>★ ESCALATED</strong> stamp and the highlighted ★16 gate row. Then run
+  <em>Multilingual</em> as Lucía — the answer comes back in Spanish.</p>
+  <div class="check">You can explain to your neighbor what every column of the ledger register
+  means, and why the two stamps differ.</div>
+  <div class="links"><span class="lbl">Demo links · this lab</span>
+    Dashboard (local): <a href="http://localhost:5173">localhost:5173</a> ·
+    Dashboard code: <a href="https://github.com/KevenWMarkham/ai-academy/tree/main/apps/academy-web">/apps/academy-web</a> ·
+    Run instructions: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/README.md">README → The dashboard</a>
+  </div>
+</section>
+
+<!-- ============================ 12 · LAB 6 ============================ -->
+<section class="slide">
+  <div class="kicker">Lab 6 · The API — Copilot's contract</div>
+  <h2>Call the same API Copilot will call (20 min)</h2>
+  <p>The dashboard and M365 Copilot consume the <strong>identical REST contract</strong>. Explore
+  it directly — this is the integration surface you'll package in Lab 7.</p>
+  <pre><span class="c"># interactive OpenAPI docs (with npm run dev still running):</span>
+start http://localhost:8000/docs
+
+<span class="c"># or from PowerShell:</span>
+Invoke-RestMethod http://localhost:8000/scenarios | Format-Table scenario_id, name, hitl_mode
+Invoke-RestMethod -Method Post http://localhost:8000/runs -ContentType application/json `
+  -Body '{"scenario_id":"hr-hrsd-05","employee_id":"E1001","text":"I need time off to care for my father"}'</pre>
+  <p><strong>Tasks:</strong> find the three <code>operationId</code>s in the OpenAPI docs
+  (<code>listScenarios, getScenario, runScenario</code>) — these exact names become the Copilot
+  plugin's functions. In the <code>runScenario</code> response, locate: the answer, the gate
+  object, the KPIs, and the 14-field ledger. That response is everything a Copilot answer needs
+  to be honest.</p>
+  <div class="check">You can name the three operationIds from memory and explain what
+  <code>gate.escalated=true</code> obliges the Copilot agent to tell the employee.</div>
+  <div class="links"><span class="lbl">Demo links · this lab</span>
+    API docs (local): <a href="http://localhost:8000/docs">localhost:8000/docs</a> ·
+    API code: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/apps/academy-api/src/academy_api/main.py">academy_api/main.py</a>
+  </div>
+</section>
+
+<!-- ============================ 13 · COPILOT CONCEPT ============================ -->
+<section class="slide">
+  <div class="kicker">Concept 6</div>
+  <h2>Integrating with M365 Copilot: agent → plugin → your API</h2>
+  <pre>M365 Copilot chat (Teams)
+  └─ Declarative agent "HR Service Delivery"      declarativeAgent.json (schema v1.7)
+       └─ API plugin action (OpenAPI)             ai-plugin.json (v2.4) + openapi.json
+            └─ academy-api                        the REST contract from Lab 6
+                 └─ ChainRunner → the 9 chains    unchanged: gate at 16, ledger, KPIs</pre>
+  <ul>
+    <li>The <strong>declarative agent's instructions</strong> route employee asks to scenario ids,
+      forbid answering HR policy from model knowledge, and require honest gate/escalation
+      reporting — read them, they're the governance layer in prose.</li>
+    <li>The <strong>plugin manifest's functions must match the API's operationIds</strong> — a
+      repo test (<code>tests/test_m365_package.py</code>) enforces it.</li>
+    <li><strong>Dual-tenant lifecycle:</strong> test on the Deloitte tenant (synthetic data,
+      X-Api-Key) → deploy at a customer (their Azure, Entra OAuth). Only the stamped API base URL
+      and the plugin's auth block change.</li>
+  </ul>
+  <div class="links"><span class="lbl">Demo links · this concept</span>
+    Runbook: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/07-m365-copilot-surface.md">docs/07 · M365 Copilot surface</a> ·
+    App package source: <a href="https://github.com/KevenWMarkham/ai-academy/tree/main/m365/appPackage">/m365/appPackage</a> ·
+    Agent instructions: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/m365/appPackage/declarativeAgent.json">declarativeAgent.json</a>
+  </div>
+</section>
+
+<!-- ============================ 14 · LAB 7 ============================ -->
+<section class="slide">
+  <div class="kicker">Lab 7 · Ship it to Copilot</div>
+  <h2>Package, sideload, and test your agent (45 min · needs tenant access)</h2>
+  <pre><span class="c"># 1 · generate the package icons (once):</span>
+python scripts/make_icons.py
+
+<span class="c"># 2 · build the app package against the class API URL (instructor provides it),</span>
+<span class="c">#     or your own deployment from infra/deploy.ps1:</span>
+m365/package.ps1 -ApiBaseUrl https://&lt;the-deployed-api-url&gt;
+
+<span class="c"># 3 · sideload m365/dist/hr-service-delivery-agent.zip:</span>
+<span class="c">#     Teams → Apps → Manage your apps → Upload an app → Upload a custom app</span></pre>
+  <p><strong>Test protocol — run these four conversation starters and verify:</strong></p>
+  <ol>
+    <li><em>Policy Q&amp;A</em> — the answer keeps the <code>[source: …]</code> citation and Raj's
+      US-CA rider.</li>
+    <li><em>Get a letter</em> — the agent relays the letter and the ACK_ONLY framing.</li>
+    <li><em>Who do I ask?</em> (garnishment) — the agent reports the <strong>escalation to Payroll
+      Operations as routing-with-context, not failure</strong>.</li>
+    <li><em>En español</em> — the answer comes back in Spanish.</li>
+  </ol>
+  <p>Then the trust tests: ask an HR question <em>without</em> naming a scenario (instructions must
+  route it), and ask something the KB can't answer (it must escalate, not invent).</p>
+  <div class="check">All four starters behave; the agent never invents policy. You just integrated
+  an HR process into an agentic orchestration surfaced in M365 Copilot — the module's goal.</div>
+  <div class="links"><span class="lbl">Demo links · this lab</span>
+    Step-by-step runbook incl. tenant prerequisites: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/07-m365-copilot-surface.md">docs/07</a> ·
+    Packaging script: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/m365/package.ps1">m365/package.ps1</a> ·
+    API deploy (instructor/optional): <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/infra/deploy.ps1">infra/deploy.ps1</a> ·
+    Package integrity tests: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/tests/test_m365_package.py">tests/test_m365_package.py</a>
+  </div>
+</section>
+
+<!-- ============================ 15 · CAPSTONE ============================ -->
+<section class="slide">
+  <div class="kicker">Capstone</div>
+  <h2>Ship scenario hr-hrsd-10 — your own HR process, end to end</h2>
+  <p>Pick an uncovered Tier-0 request (holiday calendar lookup, expense-policy Q&amp;A, org-chart
+  "who do I ask about X", onboarding buddy FAQ…) and integrate it into the orchestration:</p>
+  <ol>
+    <li><strong>Spec</strong> — <code>ScenarioSpec</code> with personas, synthetic KPIs, Azure
+      service seats, and a HITL mode you <em>defend in the module docstring</em> (name the harm).</li>
+    <li><strong>Handlers</strong> — all six roles; deterministic in mock mode.</li>
+    <li><strong>Data</strong> — any new KB document under <code>data/kb/</code> with correct
+      frontmatter (including <code>scenarios: [hr-hrsd-10]</code>) so coverage tests see it.</li>
+    <li><strong>Brief</strong> — <code>scenarios/hr-service-delivery/hr-hrsd-10-&lt;name&gt;.md</code>
+      in the house format.</li>
+    <li><strong>Register</strong> it — the contract tests must pass <strong>unchanged</strong>:
+      <code>pytest -q</code> is your acceptance bar. Add a conversation starter to the Copilot
+      agent and re-package (Lab 7) for full credit.</li>
+  </ol>
+  <p><strong>Grading:</strong> chain correctness 40% · business case (the five-slot line) 30% ·
+  code quality &amp; tests 20% · the brief 10%.</p>
+  <div class="links"><span class="lbl">Demo links · capstone</span>
+    Full brief + rubric: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/06-student-labs.md">docs/06 · Lab 7 (capstone)</a> ·
+    Pattern to copy: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/packages/academy-scenarios-hrsd/src/academy_hrsd/hrsd01_policy_qa.py">hrsd01_policy_qa.py</a> ·
+    Brief format: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/scenarios/hr-service-delivery/README.md">scenarios README</a> ·
+    Contract tests: <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/tests/test_chain_runtime.py">test_chain_runtime.py</a>
+  </div>
+</section>
+
+<!-- ============================ 16 · LINK INDEX ============================ -->
+<section class="slide">
+  <div class="kicker">Reference</div>
+  <h2>Every demo link in one place</h2>
+  <table style="font-size:13.5px">
+    <tr><th>What</th><th>Where</th><th>Used in</th></tr>
+    <tr><td>Repository</td><td><a href="https://github.com/KevenWMarkham/ai-academy">github.com/KevenWMarkham/ai-academy</a></td><td>Lab 0</td></tr>
+    <tr><td>Dashboard (local)</td><td><a href="http://localhost:5173">localhost:5173</a> · fallback <a href="http://127.0.0.1:5173">127.0.0.1:5173</a></td><td>Lab 5</td></tr>
+    <tr><td>API + OpenAPI docs (local)</td><td><a href="http://localhost:8000/docs">localhost:8000/docs</a></td><td>Lab 6</td></tr>
+    <tr><td>CLI</td><td><code>academy list · show · run · chain · kpi · kb</code></td><td>Labs 1–4</td></tr>
+    <tr><td>Scenario briefs</td><td><a href="https://github.com/KevenWMarkham/ai-academy/tree/main/scenarios/hr-service-delivery">/scenarios/hr-service-delivery</a></td><td>all labs</td></tr>
+    <tr><td>Docs 01–09</td><td><a href="https://github.com/KevenWMarkham/ai-academy/tree/main/docs">/docs</a></td><td>concepts</td></tr>
+    <tr><td>Architecture doc + diagram</td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/09-implementation-architecture.md">docs/09</a> · <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/diagrams/hrsd-implementation-architecture.svg">SVG</a></td><td>Concept 4</td></tr>
+    <tr><td>KB corpus + pipeline</td><td><a href="https://github.com/KevenWMarkham/ai-academy/tree/main/data/kb">/data/kb</a> · <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/08-knowledge-base.md">docs/08</a></td><td>Lab 4</td></tr>
+    <tr><td>Copilot app package + runbook</td><td><a href="https://github.com/KevenWMarkham/ai-academy/tree/main/m365">/m365</a> · <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/docs/07-m365-copilot-surface.md">docs/07</a></td><td>Lab 7</td></tr>
+    <tr><td>Azure deploy (optional)</td><td><a href="https://github.com/KevenWMarkham/ai-academy/tree/main/infra">/infra</a> · <a href="https://github.com/KevenWMarkham/ai-academy/blob/main/.env.example">.env.example</a></td><td>Lab 7 stretch</td></tr>
+    <tr><td>The engine to read</td><td><a href="https://github.com/KevenWMarkham/ai-academy/blob/main/packages/academy-core/src/academy_core/runtime.py">academy_core/runtime.py</a> (~200 lines)</td><td>Concept 2</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--g6)">All KPI and currency figures throughout are synthetic
+  reference figures. Local links assume <code>npm run dev</code> is running from the repo root.</p>
+</section>
+
+<div class="nav">
+  <span class="count" id="count"></span>
+  <button id="prev">←</button>
+  <button id="next">→</button>
+</div>
+<div class="footer-hint">←/→ navigate · Ctrl+P prints all slides as a handout</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;
+  function show(n){i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    document.getElementById('count').textContent=(i+1)+' / '+slides.length;
+    document.getElementById('bar').style.width=(100*(i+1)/slides.length)+'%';
+    location.hash=i+1;window.scrollTo(0,0);}
+  document.getElementById('prev').onclick=()=>show(i-1);
+  document.getElementById('next').onclick=()=>show(i+1);
+  addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')show(i+1);
+    if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);
+    if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);});
+  show(parseInt(location.hash.slice(1))-1||0);
+</script>
+</body>
+</html>
