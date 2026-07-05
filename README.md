@@ -59,7 +59,8 @@ AI-Academy/
 ├── infra/                        ← Bicep + deploy.ps1: API on Azure Container Apps
 ├── training/
 │   ├── trainer-deck.html         ← instructor slide deck: architecture walkthrough, demo scripts, notes
-│   └── student-deck.html         ← student slide deck: labs 0–7 + capstone, demo links per section
+│   ├── student-deck.html         ← technical student deck: labs 0–7 + capstone, demo links per section
+│   └── student-deck-non-technical.html ← business edition: no links/code, briefs embedded as slides
 ├── scenarios/
 │   └── hr-service-delivery/      ← one teaching brief per scenario (hr-hrsd-01 … 09)
 ├── data/

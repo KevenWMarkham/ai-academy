@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Services Module · Student Deck (Business Edition)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700;800&family=Roboto+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#86BC25; --green-a:#26890D; --green-d:#046A38; --green-deep:#2C5234;
+    --black:#000; --white:#fff; --g1:#F0F0F0; --g2:#D0D0CE; --g4:#97999B; --g6:#63666A; --g8:#333;
+    --blue:#007CB0; --orange:#ED8B00; --red:#DA291C;
+    --sans:'Open Sans','Segoe UI',Verdana,sans-serif; --mono:'Roboto Mono',Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0}
+  body{font-family:var(--sans);color:var(--black);background:var(--g1);font-size:17.5px;line-height:1.55}
+  .topbar{position:fixed;top:0;left:0;right:0;height:46px;background:var(--black);color:var(--white);
+    display:flex;align-items:center;justify-content:space-between;padding:0 22px;z-index:10}
+  .wordmark{font-weight:800;font-size:20px;letter-spacing:-.02em}
+  .wordmark b{color:var(--green)}
+  .meta{font-family:var(--mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--g4)}
+  .progress{position:fixed;top:46px;left:0;height:3px;background:var(--green);z-index:10;transition:width .2s}
+  .slide{display:none;min-height:100vh;padding:86px 70px 70px;background:var(--white);max-width:1150px;margin:0 auto}
+  .slide.active{display:block}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--green-d);font-weight:600;margin-bottom:6px}
+  h1{font-size:42px;font-weight:800;letter-spacing:-.025em;line-height:1.08;margin-bottom:18px}
+  h1 .dot{color:var(--green)}
+  h2{font-size:29px;font-weight:800;letter-spacing:-.02em;margin-bottom:14px}
+  h3{font-size:17px;font-weight:700;margin:16px 0 6px}
+  p{margin:9px 0;max-width:72ch}
+  ul,ol{margin:9px 0 9px 22px;max-width:75ch}
+  li{margin:6px 0}
+  table{border-collapse:collapse;width:100%;font-size:14.5px;margin:12px 0}
+  th{text-align:left;border-bottom:2px solid var(--black);padding:7px 10px 7px 0;font-size:12px;
+     font-family:var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--g6)}
+  td{border-bottom:1px solid var(--g2);padding:8px 10px 8px 0;vertical-align:top}
+  .flow{font-family:var(--mono);font-size:14px;background:#111;color:#e8e8e8;padding:16px 20px;
+        border-left:4px solid var(--green);border-radius:0 3px 3px 0;margin:14px 0;line-height:1.7;overflow-x:auto;white-space:pre}
+  .activity{border:1px solid var(--black);border-left:6px solid var(--green);background:var(--g1);
+       padding:14px 18px;margin:16px 0;border-radius:0 3px 3px 0;font-size:15.5px}
+  .activity .lbl{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+            font-weight:700;display:block;margin-bottom:6px}
+  .activity .lbl::before{content:"● ";color:var(--green)}
+  .aside{border-left:4px solid var(--blue);padding:10px 14px;background:#EFF6FA;margin:12px 0;font-size:15px}
+  .aside b:first-child{color:var(--blue)}
+  .check{border-left:4px solid var(--green-a);padding:8px 14px;background:#F3F8E8;margin:10px 0;font-size:14.5px}
+  .check::before{content:"✓ YOU'VE GOT IT WHEN — ";font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;color:var(--green-a);font-weight:700}
+  .pill{font-family:var(--mono);font-size:10.5px;border:1px solid currentColor;border-radius:999px;padding:1px 8px;white-space:nowrap}
+  .zt{color:var(--green-d)} .ack{color:var(--blue)} .esc{color:var(--orange)} .hard{color:var(--red)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+  .stamp{display:inline-block;border:2px solid;border-radius:3px;padding:6px 14px;font-weight:800;
+         text-transform:uppercase;font-size:14px;margin:4px 8px 4px 0}
+  .stamp.ok{color:var(--green-deep);border-color:var(--green);background:#EBF3DC}
+  .stamp.warn{color:#7a4a06;border-color:var(--orange);background:#FDF0DC}
+  .layers{margin:14px 0;border:1px solid var(--g2)}
+  .layer{display:flex;align-items:center;gap:14px;padding:10px 16px;border-bottom:1px solid var(--g2);font-size:15px}
+  .layer:nth-child(odd){background:#FBFBF9}
+  .layer .n{font-family:var(--mono);font-weight:700;color:var(--green-d);min-width:20px}
+  .layer .t2{font-weight:700;min-width:225px}
+  .nav{position:fixed;bottom:18px;right:22px;display:flex;gap:8px;align-items:center;z-index:10}
+  .nav button{font-family:var(--mono);font-size:13px;border:1px solid var(--black);background:var(--white);
+              padding:6px 14px;cursor:pointer;border-radius:2px}
+  .nav button:hover{background:var(--green);border-color:var(--green)}
+  .count{font-family:var(--mono);font-size:12px;color:var(--g6)}
+  .footer-hint{position:fixed;bottom:18px;left:22px;font-family:var(--mono);font-size:11px;color:var(--g4);z-index:10}
+  .src{font-family:var(--mono);font-size:10.5px;color:var(--g4);margin-top:18px;border-top:1px solid var(--g2);padding-top:6px}
+  @media print{
+    .topbar,.nav,.progress,.footer-hint{display:none}
+    .slide{display:block;min-height:auto;page-break-after:always;padding:30px 40px}
+    body{background:#fff}
+  }
+</style>
+</head>
+<body>
+<div class="topbar">
+  <span class="wordmark">Deloitte<b>.</b></span>
+  <span class="meta">AI Academy · HR Services Module · Business Edition</span>
+</div>
+<div class="progress" id="bar"></div>
+
+<!-- ============ 1 · TITLE ============ -->
+<section class="slide">
+  <div class="kicker">AI Academy · For HR professionals, process owners &amp; business analysts</div>
+  <h1>How AI Agents Answer HR Questions —<br>Safely, Honestly, and On the Record<span class="dot">.</span></h1>
+  <p><strong>No coding today.</strong> Everything you need is a web browser and Microsoft Teams.
+  Your instructor will give you two links: the <strong>HR console</strong> (a website where you
+  can watch the AI work step by step) and the <strong>HR Service Delivery agent</strong> inside
+  M365 Copilot in Teams.</p>
+  <p>By the end of this module you will be able to:</p>
+  <ul>
+    <li>Explain how an AI <em>agent</em> differs from a chatbot — and why that difference is what makes it safe for HR.</li>
+    <li>Read the AI's "receipt trail" and say exactly why it gave the answer it gave.</li>
+    <li>Decide, for any HR process, how much human oversight its automation needs.</li>
+    <li>Try the nine HR scenarios yourself, in the console and in Copilot.</li>
+    <li>Speak the language: chain, grounding, gate, escalation, ledger, KPI.</li>
+  </ul>
+  <p style="font-size:14px;color:var(--g6)">All employee data and performance figures in this
+  module are synthetic — invented for teaching. No real HR data is used anywhere.</p>
+</section>
+
+<!-- ============ 2 · CHATBOT VS CHAIN ============ -->
+<section class="slide">
+  <div class="kicker">The big idea · 1 of 2</div>
+  <h2>A chatbot answers. An agent runs a process.</h2>
+  <p>Ask a plain chatbot "how much vacation can I carry over?" and it produces words that
+  <em>sound</em> right. It might be right. You can't tell, it can't prove it, and nobody is
+  accountable if it's wrong. That is not good enough for HR.</p>
+  <p>The system you'll use today is different. Every question runs a <strong>scenario
+  chain</strong> — a fixed, auditable sequence of steps, like a well-run case-handling process:</p>
+  <ul>
+    <li>It looks up <strong>your</strong> record — and only yours.</li>
+    <li>It finds the <strong>actual policy</strong> and quotes its source — it is not allowed to answer from memory.</li>
+    <li>It checks the exceptions that apply to <em>you</em> (your state, your tenure, your balances).</li>
+    <li>It passes a <strong>checkpoint</strong> where a human can be involved — always at the same step.</li>
+    <li>It writes down <strong>every step it took</strong> in an audit trail anyone can review.</li>
+    <li>And it counts toward a <strong>business measure someone owns</strong> — like "fewer HR tickets".</li>
+  </ul>
+  <div class="aside"><b>Key phrase to remember:</b> <em>"the chain is the unit of value, not the
+  model."</em> The AI model is one worker inside a governed process — the process is what you're
+  buying, trusting, and measuring.</div>
+</section>
+
+<!-- ============ 3 · FIVE SLOTS ============ -->
+<section class="slide">
+  <div class="kicker">The big idea · 2 of 2</div>
+  <h2>Five slots that make a use case real</h2>
+  <div class="flow">Business objective  →  Use case       →  Person served     →  The chain          →  Measure moved
+"cut HR ticket load"   policy questions   Raj (employee)      look up → ground →    ticket deflection
+                                           Sofia (HR Ops)      check → decide →      0% → 55%
+                                                               ★checkpoint → act</div>
+  <p>Every scenario in this module fills in all five slots. That is the test you should apply to
+  <em>any</em> AI idea in your own team:</p>
+  <ol>
+    <li><strong>Business objective</strong> — what outcome are we actually chasing?</li>
+    <li><strong>Use case</strong> — which specific, repeatable request does this handle?</li>
+    <li><strong>Person served</strong> — a named role who asks, and a named role who owns the result.</li>
+    <li><strong>The chain</strong> — the governed steps, including where a human checks in.</li>
+    <li><strong>Measure moved</strong> — the number that proves it worked, with an owner.</li>
+  </ol>
+  <div class="check">you can take an HR idea from your own experience ("automate reference
+  letters") and fill all five slots out loud. If a slot is empty, the idea isn't ready — that's
+  the finding, not a failure.</div>
+</section>
+
+<!-- ============ 4 · PEOPLE ============ -->
+<section class="slide">
+  <div class="kicker">The cast</div>
+  <h2>Meet Raj and Sofia — and the rule about how people meet the AI</h2>
+  <div class="cols">
+    <div>
+      <h3>Raj Patel · Employee</h3>
+      <p>A software engineer in San Jose. He has vacation questions, a father recovering from
+      surgery, a mortgage application that needs an employment letter, and a wrong address on
+      file. He asks everything in <strong>Teams</strong>, in his own words.</p>
+      <h3>Sofia Ramos · HR Operations Specialist</h3>
+      <p>She runs HR shared services. She <strong>owns the numbers</strong> (fewer tickets,
+      faster answers, happier employees) and she is the <strong>human the AI hands over to</strong>
+      when a case is genuinely unusual.</p>
+    </div>
+    <div>
+      <h3>The roster rule</h3>
+      <p>Ten personas recur across the full HR curriculum — recruiters, managers, HR business
+      partners, the CHRO. Every one of them meets the platform <strong>only through a Copilot
+      surface</strong>: Copilot in Teams, or dashboards. Nobody talks to "the AI system"
+      directly — no consoles, no databases, no special tools.</p>
+      <div class="aside"><b>Why it matters:</b> if employees meet the AI where they already work
+      (Teams), adoption is free. Ten new logins kill more AI projects than bad models do.</div>
+    </div>
+  </div>
+  <table>
+    <tr><th>Measure Sofia owns</th><th>Before → After*</th><th>What moves it</th></tr>
+    <tr><td>Ticket deflection (questions answered with no ticket)</td><td>0% → <b>55%</b></td><td>grounded self-service in Teams</td></tr>
+    <tr><td>First-contact resolution</td><td>61% → <b>89%</b></td><td>one agent with the right facts</td></tr>
+    <tr><td>Average handle time (Raj's wait)</td><td>2 days → <b>2 min</b></td><td>instant answers &amp; documents</td></tr>
+    <tr><td>Employee satisfaction</td><td>3.6 → <b>4.5 / 5</b></td><td>fast, accurate, 24×7</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--g6)">*Synthetic reference figures for teaching — not client results.</p>
+</section>
+
+<!-- ============ 5 · THE JOURNEY ============ -->
+<section class="slide">
+  <div class="kicker">How a question travels</div>
+  <h2>Seven stops from question to answer</h2>
+  <p>Behind the scenes there is a 24-step enterprise blueprint; the part you'll watch today is
+  the seven stops every single request makes. In plain language:</p>
+  <table>
+    <tr><th>Stop</th><th>What happens</th><th>Plain-English question it answers</th></tr>
+    <tr><td><b>1 · Look up</b></td><td>Reads the asker's own record — never anyone else's</td><td>"Who is asking, and what's their situation?"</td></tr>
+    <tr><td><b>2 · Ground</b></td><td>Finds the actual policy or document, with its source</td><td>"What do our rules actually say?"</td></tr>
+    <tr><td><b>3 · Check</b></td><td>Applies the exceptions: state law, tenure, balances, deadlines</td><td>"What applies to <em>this person specifically</em>?"</td></tr>
+    <tr><td><b>4 · Decide</b></td><td>Drafts the proposed answer or action — with a confidence score</td><td>"What should we say or do, and how sure are we?"</td></tr>
+    <tr><td><b>5 · ★ Checkpoint</b></td><td>The human control point — the same step, every time</td><td>"Does a person need to look at this first?"</td></tr>
+    <tr><td><b>6 · Act</b></td><td>Delivers the answer, generates the letter, files the request</td><td>"Do it — but only if the checkpoint approved."</td></tr>
+    <tr><td><b>7 · Learn</b></td><td>Records gaps and outcomes so the process improves</td><td>"What should we fix for next time?"</td></tr>
+  </table>
+  <div class="aside"><b>The one rule that never bends:</b> stop 6 (Act) is <em>impossible</em> to
+  reach without passing stop 5 (the checkpoint). That isn't a policy the AI follows — it's how
+  the machinery is built. The AI cannot skip it any more than an elevator can skip its door sensor.</div>
+</section>
+
+<!-- ============ 6 · THE GATE ============ -->
+<section class="slide">
+  <div class="kicker">The checkpoint</div>
+  <h2>Four settings of human oversight — a risk dial, not an on/off switch</h2>
+  <table>
+    <tr><th>Setting</th><th>Who's involved</th><th>Used when…</th><th>Example</th></tr>
+    <tr><td><span class="pill zt">TOUCH-FREE</span></td><td>No one — but every step is still recorded</td><td>Reading information, answering standard questions</td><td>"How much vacation can I carry over?"</td></tr>
+    <tr><td><span class="pill ack">CONFIRM</span></td><td>The requester confirms before it proceeds</td><td>Something gets created or changed, mildly</td><td>"Generate my employment letter" — you review it first</td></tr>
+    <tr><td><span class="pill esc">ESCALATE</span></td><td>Automatic when confident; a specialist when not</td><td>The AI might not be able to resolve it</td><td>A pay question the policy library can't answer → routed to Payroll, <em>with your conversation attached</em></td></tr>
+    <tr><td><span class="pill hard">APPROVE</span></td><td>A named human must approve before anything happens</td><td>Consequences are serious</td><td>Extending a job offer (used in other HR areas, not Tier-0)</td></tr>
+  </table>
+  <p><strong>The design question you'll practice today:</strong> for each HR process, which
+  setting fits — and what concrete harm justifies anything stricter than touch-free? Too little
+  oversight is unaccountable. Too much, and the humans become the bottleneck the automation was
+  meant to remove.</p>
+  <div class="aside"><b>Reframe to internalize:</b> when the AI escalates, it has not failed. A
+  precisely-routed handover with full context is a <em>success</em> — it moves the "misrouted
+  tickets" measure from 23% toward under 3%. The failure mode is guessing.</div>
+</section>
+
+<!-- ============ 7 · THE LEDGER ============ -->
+<section class="slide">
+  <div class="kicker">The receipt trail</div>
+  <h2>If a step didn't write a receipt, it didn't happen</h2>
+  <p>Every stop on the journey writes one row to an audit ledger — fourteen facts, always the
+  same fourteen. Together they let an HR leader, an auditor, or a regulator <strong>replay any
+  answer the AI ever gave</strong>:</p>
+  <div class="cols">
+    <div>
+      <ul>
+        <li><b>Which run</b> — a unique id for this one question</li>
+        <li><b>When</b> — timestamp of each step</li>
+        <li><b>Which scenario</b> — e.g. Policy Q&amp;A</li>
+        <li><b>Which step &amp; stage</b> — where in the journey</li>
+        <li><b>Which agent</b> — the AI worker that acted</li>
+        <li><b>For whom</b> — the person served</li>
+        <li><b>What it did &amp; the evidence</b> — in readable words</li>
+      </ul>
+    </div>
+    <div>
+      <ul>
+        <li><b>How confident</b> — the score the checkpoint used</li>
+        <li><b>Checkpoint setting</b> — touch-free / confirm / escalate / approve</li>
+        <li><b>Who approved</b> — "system", or the human's name</li>
+        <li><b>Outcome</b> — ok · approved · confirmed · escalated · withheld</li>
+      </ul>
+      <div class="aside"><b>Twice the value:</b> the same receipts that satisfy an auditor also
+      teach the system — unanswered questions reveal gaps in the policy library; escalation
+      patterns retune when to hand over. Evidence and improvement are one habit, not two.</div>
+    </div>
+  </div>
+  <div class="check">in Activity 1 you can point at the ledger on screen and narrate a run to
+  your neighbor: "here it looked him up, here's the policy it quoted, here's the checkpoint,
+  here's the proof no human was needed."</div>
+</section>
+
+<!-- ============ 8 · NINE SCENARIOS ============ -->
+<section class="slide">
+  <div class="kicker">The catalog</div>
+  <h2>Nine everyday HR requests, four services</h2>
+  <table>
+    <tr><th>Service</th><th>Scenario</th><th>In one line</th><th>Checkpoint</th></tr>
+    <tr><td rowspan="3"><b>Policy Q&amp;A Copilot</b></td><td>1 · Policy Q&amp;A</td><td>Instant answers, quoting the actual policy and your own numbers</td><td><span class="pill zt">TOUCH-FREE</span></td></tr>
+    <tr><td>2 · Status lookup</td><td>"Where's my request?" — stage, owner, expected date</td><td><span class="pill zt">TOUCH-FREE</span></td></tr>
+    <tr><td>3 · Knowledge search</td><td>Finds the right policy document itself, ranked and cited</td><td><span class="pill zt">TOUCH-FREE</span></td></tr>
+    <tr><td rowspan="2"><b>Life-Event Navigator</b></td><td>4 · Life events</td><td>New baby, marriage, a move — every deadline, in order</td><td><span class="pill zt">TOUCH-FREE</span></td></tr>
+    <tr><td>5 · Leave &amp; absence</td><td>Your leave options, computed from your real balances</td><td><span class="pill zt">TOUCH-FREE</span></td></tr>
+    <tr><td rowspan="2"><b>Letter &amp; Doc Generation</b></td><td>6 · Letters</td><td>Employment verification on demand — you confirm before it's issued</td><td><span class="pill ack">CONFIRM</span></td></tr>
+    <tr><td>7 · Data corrections</td><td>"My address is wrong" → a structured, routed fix</td><td><span class="pill ack">CONFIRM</span></td></tr>
+    <tr><td rowspan="2"><b>Ticket Deflection</b></td><td>8 · Smart routing</td><td>Resolves what it can; hands the rest to the right team, context attached</td><td><span class="pill esc">ESCALATE</span></td></tr>
+    <tr><td>9 · Multilingual</td><td>The same grounded answers, in the employee's own language</td><td><span class="pill zt">TOUCH-FREE</span></td></tr>
+  </table>
+  <p>The next four slides are the scenario briefs — read the ones your table is assigned; they
+  are your reference during the activities.</p>
+</section>
+
+<!-- ============ 9 · BRIEF: POLICY QA SERVICE ============ -->
+<section class="slide">
+  <div class="kicker">Scenario briefs · 1 of 4</div>
+  <h2>Policy Q&amp;A Copilot — scenarios 1, 2, 3</h2>
+  <h3>1 · Policy Q&amp;A — <em>"How many unused vacation days can I carry over?"</em></h3>
+  <p>Most HR tickets are policy questions with a known answer. The walk: it reads Raj's record
+  (California, 3 years' tenure, 14.5 days banked) → finds the PTO policy and quotes it →
+  notices California's special rule applies to him → answers precisely, <strong>citing the
+  source document</strong> → touch-free checkpoint → delivered in Teams. No ticket ever exists.
+  If it couldn't find a grounding policy, it says so and records a gap — it never improvises.</p>
+  <h3>2 · Status lookup — <em>"Where is my tuition reimbursement request?"</em></h3>
+  <p>A top ticket driver, and a pure read: it finds his request, reports the stage
+  ("Manager approval"), the owner, and the expected date. Requests stuck too long automatically
+  nudge their owner. Notably: no AI creativity involved at all — a reminder that not everything
+  needs a language model.</p>
+  <h3>3 · Knowledge search — <em>"Is there a stipend for home-office equipment?"</em></h3>
+  <p>Sometimes people want the document, not an answer. This returns the right policies, ranked,
+  with the matching passage quoted — and searches only what the asker is allowed to read.</p>
+  <p><strong>Measures moved:</strong> ticket deflection 0%→55% · first-contact resolution
+  61%→89% · search success 48%→85% <span style="color:var(--g6)">(synthetic figures)</span></p>
+</section>
+
+<!-- ============ 10 · BRIEF: LIFE EVENTS ============ -->
+<section class="slide">
+  <div class="kicker">Scenario briefs · 2 of 4</div>
+  <h2>Life-Event Navigator — scenarios 4, 5</h2>
+  <h3>4 · Life-event guidance — <em>"We just had a baby! What do I need to do?"</em></h3>
+  <p>A birth triggers a web of deadlines most employees discover too late: elect parental leave
+  within <b>30 days</b>, add the child to benefits within the <b>31-day</b> special window,
+  update withholding, verify the dependent. The Navigator recognizes the event, assembles
+  <em>every</em> triggered action, and lays them out <strong>in deadline order</strong>,
+  personalized (California pay top-up for Raj; different rules in Germany). It can start the
+  tasks for him. Unusual situations hand over to Sofia — with everything attached.</p>
+  <h3>5 · Leave &amp; absence — <em>"I need time off to care for my father after surgery."</em></h3>
+  <p>Leave is where policy complexity meets personal anxiety. The chain identifies the leave
+  type (caregiver), grounds on the caregiver policy, then computes <em>his</em> option stack:
+  12 weeks job-protected leave, California's paid family leave running alongside, his 6 sick
+  days first, then vacation balance. It answers with the steps and starts a draft leave case —
+  at a moment when the last thing he needs is a form maze.</p>
+  <p><strong>Measures moved:</strong> life-event completion 62%→95% · leave-question deflection
+  0%→60% · employee satisfaction 3.6→4.5 <span style="color:var(--g6)">(synthetic figures)</span></p>
+</section>
+
+<!-- ============ 11 · BRIEF: LETTERS + DATA ============ -->
+<section class="slide">
+  <div class="kicker">Scenario briefs · 3 of 4</div>
+  <h2>Letter &amp; Doc Generation — scenarios 6, 7 <span class="pill ack" style="font-size:12px">the CONFIRM checkpoint</span></h2>
+  <h3>6 · Letters — <em>"I need an employment verification letter for my mortgage."</em></h3>
+  <p>High volume, fully templated, yet still manual in most HR shops. The chain picks the right
+  template, <strong>validates his record is complete first</strong> (a letter with missing data
+  never ships — it fixes the data first, see scenario 7), drafts the letter, and shows it to
+  Raj. He confirms — that's the checkpoint — then it's issued and logged to the audit trail.
+  Three days of turnaround becomes under a minute.</p>
+  <h3>7 · Data corrections — <em>"My address is wrong — it should be…"</em></h3>
+  <p>Bad records poison everything downstream — letters, taxes, benefits. The chain detects the
+  personal data in his message (and handles it under privacy controls), structures the change as
+  <em>current value → proposed value</em>, shows him exactly what will change, and — after he
+  confirms — files it with the owning data team and its service-level clock. He can track it
+  with scenario 2 afterward.</p>
+  <div class="aside"><b>Why CONFIRM and not touch-free?</b> Both scenarios change something in
+  the world. The human confirms <em>what</em> will happen — but doesn't redo the work. Discussion
+  for Activity 4: what concrete harm would touch-free letters enable?</div>
+  <p><strong>Measures moved:</strong> document turnaround 3 days→instant · self-serve rate
+  5%→80% · intake service-level adherence 71%→98% <span style="color:var(--g6)">(synthetic)</span></p>
+</section>
+
+<!-- ============ 12 · BRIEF: DEFLECTION ============ -->
+<section class="slide">
+  <div class="kicker">Scenario briefs · 4 of 4</div>
+  <h2>Ticket Deflection — scenarios 8, 9 <span class="pill esc" style="font-size:12px">the ESCALATE checkpoint</span></h2>
+  <h3>8 · Smart routing — <em>"My paycheck was garnished incorrectly — who do I talk to?"</em></h3>
+  <p>The most important scenario in the module, because it shows the AI <strong>knowing what it
+  doesn't know</strong>. Court-ordered pay matters are deliberately <em>not</em> in the policy
+  library — they need a specialist. The chain searches, finds nothing solid, scores its
+  confidence near zero, and the checkpoint fires: instead of guessing, it routes to
+  <strong>Payroll Operations</strong> with the full conversation attached and tells Raj exactly
+  who will follow up and when. He never repeats himself; Payroll never gets a misrouted mystery.</p>
+  <h3>9 · Multilingual — <em>"¿Cuántos días de vacaciones me quedan este año?"</em></h3>
+  <p>Lucía in Mexico City asks in Spanish. The chain detects the language, runs the exact same
+  grounded process, and answers in Spanish — her balance, the policy source, everything. The
+  lesson: language is a wrapper around the chain, not a separate system. One governed process,
+  every language.</p>
+  <div class="aside"><b>What "deliberately not in the library" teaches:</b> deciding what the AI
+  may answer is a <em>governance choice HR owns</em> — a coverage decision, not a technical
+  accident. Sensitive topics are route-to-a-human by design.</div>
+  <p><strong>Measures moved:</strong> deflection 0%→55% · misrouted tickets 23%→under 3% ·
+  non-English satisfaction 3.1→4.5 <span style="color:var(--g6)">(synthetic figures)</span></p>
+</section>
+
+<!-- ============ 13 · KNOWLEDGE BASE ============ -->
+<section class="slide">
+  <div class="kicker">What the AI is allowed to know</div>
+  <h2>The policy library: 30 documents, deliberately curated</h2>
+  <p>The AI answers <strong>only</strong> from a governed library — in this module, 30 synthetic
+  documents: 15 policies (vacation, parental leave, caregiver leave, sick leave, holidays,
+  benefits, 401(k), expenses, accommodations, relocation…), 10 how-to and life-event guides,
+  3 FAQs, and 2 documents in Spanish and German.</p>
+  <div class="cols">
+    <div>
+      <h3>Every document carries a label set</h3>
+      <ul>
+        <li><b>What it is</b> — policy, guide, or FAQ</li>
+        <li><b>Where it applies</b> — global, California, Germany…</li>
+        <li><b>What language it's in</b></li>
+        <li><b>Which scenarios it supports</b> — and a safeguard fails if any scenario ever loses its supporting documents</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Searchable two ways</h3>
+      <ul>
+        <li><b>By words</b> — classic keyword matching, fully explainable</li>
+        <li><b>By meaning</b> — every passage also has a mathematical "fingerprint" (a <em>vector</em>), so "time away when my mother is ill" can find the caregiver policy even with no words in common. In production this runs on Azure AI Search.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="aside"><b>The gaps are the governance:</b> garnishment and court-order topics are
+  excluded on purpose (that's why scenario 8 escalates), and sensitive topics appear only as
+  "contact this team" entries. Curating this library — what's in, what's out, what routes to a
+  human — is an <strong>HR job</strong>, and after this module it could be yours.</div>
+</section>
+
+<!-- ============ 14 · ARCHITECTURE, PLAIN ============ -->
+<section class="slide">
+  <div class="kicker">Behind the scenes</div>
+  <h2>How it works in production — six layers, no jargon</h2>
+  <div class="layers">
+    <div class="layer"><span class="n">1</span><span class="t2">Where facts are born</span>
+      <span>Workday (people), SuccessFactors (legacy regions), ServiceNow (HR requests) — the official systems of record.</span></div>
+    <div class="layer"><span class="n">2</span><span class="t2">The refinery</span>
+      <span>Copies land raw, get cleaned and standardized, and personal identifiers are <b>masked before anything else sees them</b>. Only the final "agent-safe" layer — one person's record at a time — is ever visible to the AI. (Microsoft Fabric / OneLake.)</span></div>
+    <div class="layer"><span class="n">3</span><span class="t2">The specialists</span>
+      <span>Language services that detect personal data, classify intent, and translate; the AI models that polish wording and create the meaning-fingerprints. (Azure AI services.)</span></div>
+    <div class="layer"><span class="n">4</span><span class="t2">The conductor</span>
+      <span>The chain runtime you'll watch today: runs the seven stops, enforces the checkpoint, writes every receipt. (Built on the Microsoft Agent Framework.)</span></div>
+    <div class="layer"><span class="n">5</span><span class="t2">The controls</span>
+      <span>Identity (who may see what — Microsoft Entra), data governance and lineage (Microsoft Purview), monitoring, and the tamper-evident audit store.</span></div>
+    <div class="layer"><span class="n">6</span><span class="t2">Where you meet it</span>
+      <span>Copilot in Teams for employees, the console for operators, approval cards in Teams for checkpoints, Power BI dashboards for the numbers Sofia and the CHRO watch.</span></div>
+  </div>
+  <p>Three things to retain: the AI <b>never touches raw personal data</b> (layer 2 masks it
+  first); it <b>never acts without the checkpoint</b> (layer 4 enforces it); and everything it
+  does is <b>observable</b> (layer 5 records it). Ask your instructor to show the full technical
+  diagram if your table wants to go deeper.</p>
+</section>
+
+<!-- ============ 15 · COPILOT CONCEPT ============ -->
+<section class="slide">
+  <div class="kicker">Where employees meet it</div>
+  <h2>What "an agent in M365 Copilot" actually means</h2>
+  <p>M365 Copilot is Microsoft's AI assistant inside Teams, Outlook, and Office. Companies can
+  add their own <strong>declarative agents</strong> to it — think of one as a specialist
+  colleague inside Copilot with three things:</p>
+  <ol>
+    <li><strong>A job description (its "instructions"):</strong> ours says — route each HR
+      question to the right scenario; <em>never</em> answer HR policy from your own general
+      knowledge; keep every citation; and report checkpoints honestly, including escalations.</li>
+    <li><strong>Conversation starters:</strong> nine suggested questions — one per scenario —
+      so anyone can try it without knowing what to ask.</li>
+    <li><strong>A connection to the chain</strong> — the agent doesn't answer by itself; it
+      calls the same governed process you'll watch in the console. Copilot is the doorway, not
+      the brain.</li>
+    </ol>
+  <div class="aside"><b>Why this matters to HR:</b> the honesty rules live in the agent's written
+  instructions and in the chain's machinery — not in a model's goodwill. When procurement or
+  works councils ask "how do you know it won't make things up about HR policy?", the answer is:
+  it is not permitted to answer from memory, and here is the receipt trail that proves what it
+  did instead.</div>
+  <p>The same package can be tested in our environment with synthetic data, then deployed at a
+  client site against their systems — the process, checkpoints, and audit trail travel with it.</p>
+</section>
+
+<!-- ============ 16 · ACTIVITY 1 ============ -->
+<section class="slide">
+  <div class="kicker">Activity 1 · The console · 15 min</div>
+  <h2>Watch one question travel the whole chain</h2>
+  <div class="activity"><span class="lbl">Your steps</span>
+    <ol>
+      <li>Open the <strong>HR console link your instructor shared</strong> (in class setups this
+        is often <span style="font-family:var(--mono)">localhost:5173</span> on the demo machine).</li>
+      <li>In the scenario register (left side), choose <strong>Policy Q&amp;A</strong>.</li>
+      <li>Keep the suggested question and press <strong>Run the chain</strong>.</li>
+      <li>Read, in order: the <span class="stamp ok">✓ Approved</span> stamp (the checkpoint),
+        the answer (find the <em>source citation</em> and Raj's own numbers), the
+        <strong>ledger</strong> (match each row to the seven stops from earlier), and the
+        <strong>measures table</strong>.</li>
+      <li>Now change the question to your own words — a vacation question you'd really ask —
+        and run it again. Did the citation change? Did the confidence change?</li>
+    </ol>
+  </div>
+  <div class="check">you can narrate the ledger to your neighbor, stop by stop, and point at the
+  exact policy passage the answer came from.</div>
+  <p><strong>Discussion at your table:</strong> which single element here would most change your
+  trust conversation with a works council or an audit committee — the citation, the checkpoint,
+  or the ledger? Why?</p>
+</section>
+
+<!-- ============ 17 · ACTIVITY 2 ============ -->
+<section class="slide">
+  <div class="kicker">Activity 2 · The escalation · 15 min</div>
+  <h2>Watch the AI refuse to guess</h2>
+  <div class="activity"><span class="lbl">Your steps</span>
+    <ol>
+      <li>In the console, choose <strong>Ticket deflection / smart routing</strong>.</li>
+      <li>Run its suggested question (the garnished-paycheck one).</li>
+      <li>Read the amber <span class="stamp warn">★ Escalated</span> stamp and the highlighted
+        checkpoint row: confidence near zero → routed to <strong>Payroll Operations</strong>,
+        conversation attached, service-level named.</li>
+      <li>Now run the <em>same scenario</em> with a vacation question instead. Watch it resolve
+        touch-free. Same process, two honest outcomes.</li>
+      <li>Try <strong>Multilingual</strong>: run the Spanish starter and read the answer.</li>
+    </ol>
+  </div>
+  <div class="check">you can explain why the escalation is a success story — and name the two
+  measures it moves (deflection <em>and</em> misroute rate).</div>
+  <p><strong>Discussion:</strong> in your own HR function, which topics should the library
+  deliberately <em>exclude</em> so they always reach a human? Make a list of three — you'll use
+  it in Activity 4.</p>
+</section>
+
+<!-- ============ 18 · ACTIVITY 3 ============ -->
+<section class="slide">
+  <div class="kicker">Activity 3 · Copilot in Teams · 20 min</div>
+  <h2>Meet the agent where employees will</h2>
+  <div class="activity"><span class="lbl">Your steps (your instructor has installed the agent for the class)</span>
+    <ol>
+      <li>Open <strong>Teams → Copilot</strong>, and pick the <strong>HR Service Delivery</strong>
+        agent from the agent list (right-hand side).</li>
+      <li>Run four of its conversation starters and verify like an inspector:
+        <ul>
+          <li><em>Policy Q&amp;A</em> — is the source citation still there, word for word?</li>
+          <li><em>Get a letter</em> — does it show you the letter and ask you to confirm?</li>
+          <li><em>Who do I ask?</em> — does it present the escalation as routing-with-context, not as an apology?</li>
+          <li><em>En español</em> — does the answer come back in Spanish?</li>
+        </ul></li>
+      <li>Now the trust tests: ask an HR question <em>in your own words</em> without naming any
+        scenario. Then ask something outside HR policy entirely (a stock tip, tomorrow's
+        weather in Munich for a business trip policy…). It should route, hand over, or decline —
+        never improvise HR policy.</li>
+    </ol>
+  </div>
+  <div class="check">the agent behaved identically to the console — because it IS the same chain;
+  Copilot is only the doorway. If you caught it improvising, write down the exact question:
+  that's a finding your instructor wants.</div>
+</section>
+
+<!-- ============ 19 · ACTIVITY 4 ============ -->
+<section class="slide">
+  <div class="kicker">Activity 4 · Design your own · 30 min · pen and paper</div>
+  <h2>Be the process owner: design scenario #10</h2>
+  <p>In pairs: choose an everyday HR request this module doesn't cover — holiday calendar
+  questions, expense-policy Q&amp;A, "who do I ask about X", onboarding buddy FAQ, badge
+  replacement… and design its chain on one page:</p>
+  <ol>
+    <li><strong>The five slots:</strong> objective · use case · person served (asker + measure
+      owner) · the chain · measure moved (invent a plausible before → after).</li>
+    <li><strong>The seven stops:</strong> what happens at each — especially stop 3: which
+      personal facts and which exceptions matter?</li>
+    <li><strong>The checkpoint setting</strong> — touch-free, confirm, escalate, or approve —
+      and one sentence naming <em>the concrete harm</em> that justifies your choice. "It feels
+      safer" doesn't count.</li>
+    <li><strong>The library:</strong> which 2–3 documents must exist for grounding? What's
+      deliberately excluded and routed to a human (use your Activity 2 list)?</li>
+    <li><strong>The honest failure:</strong> write the exact sentence the agent should say when
+      it can't answer your scenario.</li>
+  </ol>
+  <div class="check">another pair reviews your page and attacks the checkpoint choice; you
+  defend it with the harm scenario, not with vibes. Then swap.</div>
+  <p style="color:var(--g6);font-size:14px">This same exercise, plus the engineering, is the
+  technical track's capstone — your one-pager is a real specification a build team could take on.</p>
+</section>
+
+<!-- ============ 20 · GLOSSARY ============ -->
+<section class="slide">
+  <div class="kicker">Reference</div>
+  <h2>Glossary — the ten words to keep</h2>
+  <table>
+    <tr><th>Term</th><th>Plain meaning</th></tr>
+    <tr><td><b>Agent</b></td><td>An AI worker with a defined job, defined tools, and defined limits — not a general chatbot.</td></tr>
+    <tr><td><b>Scenario chain</b></td><td>The governed, repeatable sequence of steps a request travels — the thing you actually trust and measure.</td></tr>
+    <tr><td><b>Grounding</b></td><td>Answering only from approved documents and records, with the source quoted. The opposite of "from memory".</td></tr>
+    <tr><td><b>Hallucination</b></td><td>A fluent answer invented by a model. Grounding + the honesty rules are the countermeasure.</td></tr>
+    <tr><td><b>Checkpoint (HITL gate)</b></td><td>The fixed step where human oversight applies — always step 16 of the enterprise blueprint. Four settings: touch-free, confirm, escalate, approve.</td></tr>
+    <tr><td><b>Escalation</b></td><td>A confident hand-over to the right human team with full context attached. A success, not a failure.</td></tr>
+    <tr><td><b>Ledger</b></td><td>The 14-fact receipt each step writes — the audit trail that lets anyone replay an answer.</td></tr>
+    <tr><td><b>Vector / meaning-fingerprint</b></td><td>A mathematical summary of a passage that lets search match by meaning, not just by shared words.</td></tr>
+    <tr><td><b>KPI</b></td><td>The named measure a named person owns — deflection, first-contact resolution, handle time, satisfaction.</td></tr>
+    <tr><td><b>Declarative agent (M365 Copilot)</b></td><td>A specialist added to Copilot: written instructions + starter questions + a connection to a governed process.</td></tr>
+  </table>
+</section>
+
+<!-- ============ 21 · RECAP ============ -->
+<section class="slide">
+  <div class="kicker">Wrap-up</div>
+  <h2>What you can now say — and where everything lives</h2>
+  <ul>
+    <li>"An agent runs a <b>process</b>, a chatbot produces words — and the process is what we
+      govern: grounding, a checkpoint, a receipt trail, a measure with an owner."</li>
+    <li>"Human oversight is a <b>dial with four settings</b>, chosen per process by naming the
+      harm — and the machinery, not good intentions, enforces it."</li>
+    <li>"When the AI escalates, <b>it's working</b>."</li>
+    <li>"What the AI may answer is a <b>curation decision HR owns</b> — the gaps are governance."</li>
+    <li>"Employees meet it <b>in Teams via Copilot</b>; the honesty rules travel with the package
+      from our test environment to a client's."</li>
+  </ul>
+  <h3>Your take-aways</h3>
+  <table>
+    <tr><th>Item</th><th>Where</th></tr>
+    <tr><td>This deck (works as a printed handout — Ctrl+P)</td><td>Provided by your instructor</td></tr>
+    <tr><td>HR console + Copilot agent access</td><td>Links from your instructor (class environment)</td></tr>
+    <tr><td>Your Activity 4 one-pager</td><td>Yours — it's a real scenario specification; bring it to your practice lead</td></tr>
+    <tr><td>Deeper technical track (code, labs, Azure, packaging)</td><td>Ask your instructor about the technical edition of this module</td></tr>
+  </table>
+  <p style="font-size:13px;color:var(--g6)">All figures are synthetic reference figures.
+  Deloitte's HR Service Delivery practice uses Microsoft technology to serve clients; all
+  teaching runs on synthetic data in a test environment.</p>
+</section>
+
+<div class="nav">
+  <span class="count" id="count"></span>
+  <button id="prev">←</button>
+  <button id="next">→</button>
+</div>
+<div class="footer-hint">←/→ navigate · Ctrl+P prints all slides as a handout</div>
+
+<script>
+  const slides=[...document.querySelectorAll('.slide')];let i=0;
+  function show(n){i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,k)=>s.classList.toggle('active',k===i));
+    document.getElementById('count').textContent=(i+1)+' / '+slides.length;
+    document.getElementById('bar').style.width=(100*(i+1)/slides.length)+'%';
+    location.hash=i+1;window.scrollTo(0,0);}
+  document.getElementById('prev').onclick=()=>show(i-1);
+  document.getElementById('next').onclick=()=>show(i+1);
+  addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown')show(i+1);
+    if(e.key==='ArrowLeft'||e.key==='PageUp')show(i-1);
+    if(e.key==='Home')show(0); if(e.key==='End')show(slides.length-1);});
+  show(parseInt(location.hash.slice(1))-1||0);
+</script>
+</body>
+</html>
