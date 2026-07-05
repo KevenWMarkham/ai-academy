@@ -20,7 +20,8 @@ it apart from generation.
 
 ## Data & tools
 
-Policy KB (→ `data/policies/`), MCP search tool.
+The knowledge base (→ `data/kb/`: policies, guides, FAQs, localized docs — each chunked and
+embeddable, see docs/08), MCP search tool.
 
 ## Azure AI services
 
@@ -41,7 +42,10 @@ Code: `packages/academy-scenarios-hrsd/src/academy_hrsd/hrsd03_kb_search.py`
 
 ## Labs
 
-- Read `PolicySearch._query_local` (~30 lines). Which query would rank the *wrong* policy
+- Read `KBSearch._query_local` (~30 lines). Which query would rank the *wrong* policy
   first? Construct one, verify it, and explain what Azure AI Search's semantic ranker would
   do differently.
+- Compare `academy kb search "time away when my mother is ill"` with and without `--vector`.
+  The mock embedding is *soft-lexical* (feature-hashed) — explain why its ranking differs from
+  keyword's, and what a live semantic embedding would do differently (docs/08, Lab 3).
 - What distinguishes this scenario from hr-hrsd-01 in one sentence? (Hint: who does the reading.)

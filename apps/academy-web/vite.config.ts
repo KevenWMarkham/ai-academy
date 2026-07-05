@@ -5,6 +5,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: true, // bind IPv4 + IPv6 so localhost resolves regardless of OS/proxy quirks
     port: 5173,
     strictPort: true,
     proxy: {

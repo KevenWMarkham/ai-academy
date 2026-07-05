@@ -42,7 +42,8 @@ AI-Academy/
 │   ├── 04-hitl-and-ledger.md     ← HITL modes, the step-16 gate, the 14-field ledger
 │   ├── 05-azure-ai-services-map.md ← which Azure AI service powers which scenario
 │   ├── 06-student-labs.md        ← graded lab exercises
-│   └── 07-m365-copilot-surface.md ← surface in M365 Copilot: Deloitte-tenant test → customer deploy
+│   ├── 07-m365-copilot-surface.md ← surface in M365 Copilot: Deloitte-tenant test → customer deploy
+│   └── 08-knowledge-base.md      ← the KB corpus, vector pipeline, Azure AI Search index
 ├── packages/
 │   ├── academy-core/             ← chain runtime: roles, HITL gate, ledger, KPI rollup
 │   ├── academy-services/         ← AI-service adapters (mock-first, live-Azure optional)
@@ -57,7 +58,10 @@ AI-Academy/
 ├── infra/                        ← Bicep + deploy.ps1: API on Azure Container Apps
 ├── scenarios/
 │   └── hr-service-delivery/      ← one teaching brief per scenario (hr-hrsd-01 … 09)
-├── data/                         ← synthetic HR data: employees, cases, policy KB, templates
+├── data/
+│   ├── kb/                       ← 30-doc synthetic knowledge base (policies/guides/faq/localized)
+│   │                                chunked + embeddable → Azure AI Search (`academy kb push`)
+│   └── …                         ← employees, cases, routing map, letter templates
 └── tests/                        ← every scenario runs end-to-end in CI, mock mode
 ```
 

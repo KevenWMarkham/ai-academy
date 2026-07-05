@@ -1,13 +1,24 @@
+---
+title: Caregiver & Medical Leave Policy
+doc_type: policy
+category: leave
+policy_id: POL-LVE-032
+jurisdictions: [GLOBAL, US-CA]
+language: en
+scenarios: [hr-hrsd-01, hr-hrsd-03, hr-hrsd-05]
+tags: [caregiver, medical, fmla, disability, leave]
+---
 # Caregiver & Medical Leave Policy
 
 **Policy ID:** POL-LVE-032 · **Jurisdictions:** Global, with US-CA rider · **Last review:** 2025-11
 
 ## Family caregiver leave
 
-Employees may take up to **12 weeks of job-protected leave** in a rolling 12-month period to
-care for a spouse, child, or parent with a serious health condition (FMLA-equivalent, applied
-globally as company policy). The first 2 weeks are paid at 100%; the remainder is unpaid unless
-a jurisdiction rider provides pay.
+Employees may take up to **12 weeks of job-protected leave** in a rolling 12-month period —
+time away to care for a spouse, child, or parent (mother or father) who is seriously ill or
+has a serious health condition (FMLA-equivalent, applied globally as company policy). The
+first 2 weeks are paid at 100%; the remainder is unpaid unless a jurisdiction rider provides
+pay.
 
 ## Employee medical leave
 

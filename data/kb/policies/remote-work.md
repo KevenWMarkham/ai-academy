@@ -1,3 +1,13 @@
+---
+title: Remote & Hybrid Work Policy
+doc_type: policy
+category: workplace
+policy_id: POL-WRK-007
+jurisdictions: [GLOBAL]
+language: en
+scenarios: [hr-hrsd-01, hr-hrsd-03]
+tags: [remote, hybrid, home-office, equipment]
+---
 # Remote & Hybrid Work Policy
 
 **Policy ID:** POL-WRK-007 · **Jurisdictions:** Global · **Last review:** 2026-02

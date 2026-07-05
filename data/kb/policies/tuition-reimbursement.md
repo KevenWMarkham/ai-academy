@@ -1,3 +1,13 @@
+---
+title: Tuition Reimbursement Policy
+doc_type: policy
+category: learning
+policy_id: POL-LRN-022
+jurisdictions: [GLOBAL]
+language: en
+scenarios: [hr-hrsd-01, hr-hrsd-02, hr-hrsd-03]
+tags: [tuition, education, reimbursement, learning]
+---
 # Tuition Reimbursement Policy
 
 **Policy ID:** POL-LRN-022 · **Jurisdictions:** Global · **Last review:** 2025-09

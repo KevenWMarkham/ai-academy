@@ -13,9 +13,10 @@ from pathlib import Path
 
 from academy_services.data import CaseStore, EmployeeDirectory, RoutingMap, find_data_dir
 from academy_services.documents import TemplateStore
+from academy_services.embeddings import EmbeddingService
 from academy_services.foundry import ChatService
 from academy_services.language import LanguageService
-from academy_services.search import PolicySearch
+from academy_services.search import KBSearch
 from academy_services.translator import TranslatorService
 
 
@@ -41,8 +42,12 @@ class ServiceHub:
         return ChatService(self.runtime)
 
     @cached_property
-    def search(self) -> PolicySearch:
-        return PolicySearch(self.data_dir, self.runtime)
+    def embeddings(self) -> EmbeddingService:
+        return EmbeddingService(self.runtime)
+
+    @cached_property
+    def search(self) -> KBSearch:
+        return KBSearch(self.data_dir, self.runtime, self.embeddings)
 
     @cached_property
     def language(self) -> LanguageService:

@@ -1,3 +1,13 @@
+---
+title: Bereavement Leave Policy
+doc_type: policy
+category: leave
+policy_id: POL-LVE-033
+jurisdictions: [GLOBAL]
+language: en
+scenarios: [hr-hrsd-01, hr-hrsd-03, hr-hrsd-04, hr-hrsd-05]
+tags: [bereavement, grief, leave, eap]
+---
 # Bereavement Leave Policy
 
 **Policy ID:** POL-LVE-033 · **Jurisdictions:** Global · **Last review:** 2025-11

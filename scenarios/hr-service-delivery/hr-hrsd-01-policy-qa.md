@@ -21,7 +21,7 @@ ever raised.
 
 ## Data & tools
 
-`gold_hr_worker_v2` (→ `data/employees.json`), policy KB (→ `data/policies/`), MCP policy-QA tool.
+`gold_hr_worker_v2` (→ `data/employees.json`), policy KB (→ `data/kb/`), MCP policy-QA tool.
 
 ## Azure AI services
 

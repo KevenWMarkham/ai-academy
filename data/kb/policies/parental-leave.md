@@ -1,3 +1,13 @@
+---
+title: Parental Leave Policy
+doc_type: policy
+category: leave
+policy_id: POL-LVE-031
+jurisdictions: [GLOBAL, US-CA, DE]
+language: en
+scenarios: [hr-hrsd-01, hr-hrsd-03, hr-hrsd-04, hr-hrsd-05]
+tags: [parental, maternity, paternity, adoption, leave]
+---
 # Parental Leave Policy
 
 **Policy ID:** POL-LVE-031 · **Jurisdictions:** Global, with US-CA and DE riders · **Last review:** 2025-11

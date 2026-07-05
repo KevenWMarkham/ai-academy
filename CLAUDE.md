@@ -25,9 +25,14 @@ ruff check . && pytest -q
   W2 segment, enforces the step-16 gate, writes the ledger), `ledger.py` (14-field rows),
   `personas.py`, `registry.py`.
 - `packages/academy-services` — AI-service adapters, **mock-first**: `hub.py` (ServiceHub),
-  `foundry.py` (AOAI chat + polish), `maf.py` (MAF Agent runtime), `search.py` (local keyword
-  index over data/policies, Azure AI Search live), `language.py`, `translator.py`,
-  `documents.py`, `data.py` (employees/cases/routing).
+  `foundry.py` (AOAI chat + polish), `maf.py` (MAF Agent runtime), `kb.py` (frontmatter
+  corpus loader + section chunker over data/kb), `embeddings.py` (mock 256-dim feature-hash
+  vectors ↔ AOAI text-embedding-3-small), `search.py` (KBSearch: local keyword + local
+  vector + Azure AI Search hybrid), `azure_search.py` (REST: index w/ HNSW vector column,
+  upload, hybrid query), `language.py`, `translator.py`, `documents.py`, `data.py`.
+  KB corpus rules: "carry over"/"unused"/"stipend" stay unique to their policy docs (local
+  ranking regressions guard this in tests); garnishment/court-order topics are deliberately
+  NOT in the KB so hr-hrsd-08's escalation demo keeps firing.
 - `packages/academy-scenarios-hrsd` — one module per scenario; each exposes `SPEC` +
   stage handlers + `SCENARIO`, registered on package import.
 - `apps/academy-cli` — the `academy` console command (list/show/run/chain/kpi).

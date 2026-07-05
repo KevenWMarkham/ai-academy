@@ -1,3 +1,13 @@
+---
+title: Paid Time Off (PTO) Policy
+doc_type: policy
+category: time-off
+policy_id: POL-PTO-014
+jurisdictions: [GLOBAL, US-CA, DE-BY]
+language: en
+scenarios: [hr-hrsd-01, hr-hrsd-03, hr-hrsd-05, hr-hrsd-09]
+tags: [pto, vacation, accrual, time-off]
+---
 # Paid Time Off (PTO) Policy
 
 **Policy ID:** POL-PTO-014 · **Jurisdictions:** Global, with US-CA and DE-BY riders · **Last review:** 2026-01
@@ -6,7 +16,7 @@
 
 Full-time employees accrue PTO per pay period, scaling with tenure: 15 days/year (0-2 years),
 20 days/year (2-5 years), 25 days/year (5+ years). Accrual appears on each payslip and in the
-worker record (`pto_balance_days`).
+worker record (`pto_balance_days`). Vacation accrual pauses during unpaid leave.
 
 ## Carryover
 
