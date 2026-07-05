@@ -1,0 +1,50 @@
+{
+  "E1001": {
+    "name": "Raj Patel",
+    "role": "Software Engineer II",
+    "dept": "Engineering",
+    "location": "San Jose, CA",
+    "jurisdiction": "US-CA",
+    "hire_date": "2023-04-17",
+    "manager": "David Okafor",
+    "salary_band": "L4",
+    "tenure_years": 3.2,
+    "pto_balance_days": 14.5,
+    "sick_balance_days": 6.0,
+    "address": "118 Winchester Blvd, San Jose, CA 95128",
+    "language": "en",
+    "dependents": 1
+  },
+  "E1002": {
+    "name": "Ingrid Weber",
+    "role": "Supply Chain Analyst",
+    "dept": "Operations",
+    "location": "Munich, DE",
+    "jurisdiction": "DE-BY",
+    "hire_date": "2021-09-01",
+    "manager": "Priya Sharma",
+    "salary_band": "L3",
+    "tenure_years": 4.8,
+    "pto_balance_days": 21.0,
+    "sick_balance_days": 0.0,
+    "address": "Leopoldstraße 44, 80802 München",
+    "language": "de",
+    "dependents": 2
+  },
+  "E1003": {
+    "name": "Lucía Álvarez",
+    "role": "Customer Success Manager",
+    "dept": "Sales",
+    "location": "Mexico City, MX",
+    "jurisdiction": "MX",
+    "hire_date": "2024-02-12",
+    "manager": "David Okafor",
+    "salary_band": "L3",
+    "tenure_years": 2.4,
+    "pto_balance_days": 9.0,
+    "sick_balance_days": 4.0,
+    "address": "Av. Insurgentes Sur 1602, CDMX",
+    "language": "es",
+    "dependents": 0
+  }
+}

@@ -1,0 +1,35 @@
+[
+  {
+    "case_id": "HRC-20431",
+    "employee_id": "E1001",
+    "type": "Tuition reimbursement",
+    "stage": "Manager approval",
+    "owner": "Sofia Ramos",
+    "opened": "2026-06-21",
+    "expected": "2026-07-08",
+    "status": "in_progress",
+    "days_in_stage": 4
+  },
+  {
+    "case_id": "HRC-20502",
+    "employee_id": "E1001",
+    "type": "Address change",
+    "stage": "Completed",
+    "owner": "HR Data Services",
+    "opened": "2026-05-30",
+    "expected": "2026-06-02",
+    "status": "closed",
+    "days_in_stage": 0
+  },
+  {
+    "case_id": "HRC-20477",
+    "employee_id": "E1002",
+    "type": "Parental leave election",
+    "stage": "Benefits review",
+    "owner": "Marcus Lee",
+    "opened": "2026-06-10",
+    "expected": "2026-06-24",
+    "status": "in_progress",
+    "days_in_stage": 12
+  }
+]

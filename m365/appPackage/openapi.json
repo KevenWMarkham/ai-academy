@@ -1,0 +1,163 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "AI Academy · HR Service Delivery API",
+    "description": "Runs HR Service Delivery (Tier-0) scenario chains: grounded agents with a human-in-the-loop gate at step 16, a full audit ledger, and named KPIs.",
+    "version": "0.1.0"
+  },
+  "servers": [
+    { "url": "__ACADEMY_API_BASE_URL__", "description": "Deployed academy-api (set by m365/package.ps1)" }
+  ],
+  "paths": {
+    "/scenarios": {
+      "get": {
+        "operationId": "listScenarios",
+        "summary": "List the HR Service Delivery scenarios",
+        "description": "List every registered scenario with its chain shape and HITL mode.",
+        "responses": {
+          "200": {
+            "description": "The scenario catalog.",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/ScenarioSummary" } }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/scenarios/{scenario_id}": {
+      "get": {
+        "operationId": "getScenario",
+        "summary": "Get one scenario's full specification",
+        "description": "Full spec: personas, KPIs, Azure services, and a sample request.",
+        "parameters": [
+          {
+            "name": "scenario_id",
+            "in": "path",
+            "required": true,
+            "description": "Scenario id, e.g. hr-hrsd-01",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The scenario specification.",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/ScenarioDetail" } }
+            }
+          },
+          "404": { "description": "Unknown scenario id." }
+        }
+      }
+    },
+    "/runs": {
+      "post": {
+        "operationId": "runScenario",
+        "summary": "Run a scenario chain for an employee request",
+        "description": "Execute the six-role chain (Assess, Classify, Quantify, Decide, HITL gate, Act, Learn) and return the answer, the gate outcome, the KPIs moved, and the audit ledger.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": { "schema": { "$ref": "#/components/schemas/RunIn" } }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The chain run result.",
+            "content": {
+              "application/json": { "schema": { "$ref": "#/components/schemas/RunOut" } }
+            }
+          },
+          "404": { "description": "Unknown scenario id." }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ScenarioSummary": {
+        "type": "object",
+        "properties": {
+          "scenario_id": { "type": "string", "description": "Scenario id, e.g. hr-hrsd-01" },
+          "name": { "type": "string" },
+          "tagline": { "type": "string" },
+          "service": { "type": "string" },
+          "chain_focus": { "type": "string" },
+          "hitl_mode": { "type": "string", "description": "ZERO_TOUCH, ACK_ONLY, ESCALATION or HITL" },
+          "lead_agent": { "type": "string" }
+        }
+      },
+      "ScenarioDetail": {
+        "allOf": [
+          { "$ref": "#/components/schemas/ScenarioSummary" },
+          {
+            "type": "object",
+            "properties": {
+              "area": { "type": "string" },
+              "maf_pattern": { "type": "string" },
+              "personas": { "type": "array", "items": { "type": "string" } },
+              "azure_services": { "type": "array", "items": { "type": "string" } },
+              "kpis": { "type": "array", "items": { "$ref": "#/components/schemas/Kpi" } },
+              "sample_text": { "type": "string" }
+            }
+          }
+        ]
+      },
+      "Kpi": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "owner": { "type": "string" },
+          "baseline": { "type": "string" },
+          "target": { "type": "string" }
+        }
+      },
+      "RunIn": {
+        "type": "object",
+        "required": ["scenario_id"],
+        "properties": {
+          "scenario_id": { "type": "string", "description": "Scenario to run, e.g. hr-hrsd-01" },
+          "employee_id": { "type": "string", "description": "Requesting employee id (defaults to the scenario's sample employee)" },
+          "text": { "type": "string", "description": "The employee's question or request in their own words" }
+        }
+      },
+      "RunOut": {
+        "type": "object",
+        "properties": {
+          "scenario_id": { "type": "string" },
+          "scenario_name": { "type": "string" },
+          "answer": { "type": "string", "description": "The grounded answer to show the employee" },
+          "gate": { "$ref": "#/components/schemas/Gate" },
+          "escalation_route": { "type": "string", "nullable": true, "description": "Where the request was routed if the gate escalated" },
+          "kpis": { "type": "array", "items": { "$ref": "#/components/schemas/Kpi" } },
+          "ledger": { "type": "array", "items": { "$ref": "#/components/schemas/LedgerRow" } }
+        }
+      },
+      "Gate": {
+        "type": "object",
+        "description": "What happened at the step-16 human-in-the-loop gate.",
+        "properties": {
+          "mode": { "type": "string" },
+          "approved": { "type": "boolean" },
+          "escalated": { "type": "boolean" },
+          "actor": { "type": "string" },
+          "note": { "type": "string" }
+        }
+      },
+      "LedgerRow": {
+        "type": "object",
+        "description": "One step of the run's audit trail.",
+        "properties": {
+          "seq": { "type": "integer" },
+          "step": { "type": "integer", "description": "Canonical 1..24 chain step" },
+          "stage": { "type": "string" },
+          "action": { "type": "string" },
+          "detail": { "type": "string" },
+          "outcome": { "type": "string" },
+          "confidence": { "type": "number", "nullable": true }
+        }
+      }
+    }
+  }
+}

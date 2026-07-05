@@ -1,0 +1,38 @@
+{
+  "payroll": {
+    "team": "Payroll Operations",
+    "owner": "Payroll Ops queue",
+    "sla_days": 3,
+    "keywords": ["paycheck", "payslip", "pay", "salary", "garnish", "withholding", "direct deposit", "w-2", "tax"]
+  },
+  "benefits": {
+    "team": "Benefits & Total Rewards",
+    "owner": "Marcus Lee",
+    "sla_days": 5,
+    "keywords": ["benefits", "401k", "insurance", "medical plan", "dental", "enrollment", "dependent", "hsa"]
+  },
+  "employee-relations": {
+    "team": "Employee Relations",
+    "owner": "Aisha Bello",
+    "sla_days": 2,
+    "keywords": ["complaint", "harassment", "conflict", "grievance", "investigation", "manager issue"]
+  },
+  "it-access": {
+    "team": "IT Service Desk",
+    "owner": "IT triage queue",
+    "sla_days": 1,
+    "keywords": ["laptop", "password", "vpn", "access", "badge", "account locked"]
+  },
+  "hr-data-services": {
+    "team": "HR Data Services",
+    "owner": "HR Data queue",
+    "sla_days": 3,
+    "keywords": ["address", "name change", "correction", "record", "bank details", "emergency contact"]
+  },
+  "hr-shared-services": {
+    "team": "HR shared services",
+    "owner": "Sofia Ramos",
+    "sla_days": 3,
+    "keywords": []
+  }
+}

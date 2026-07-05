@@ -1,0 +1,43 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/copilot/plugin/v2.4/schema.json",
+  "schema_version": "v2.4",
+  "namespace": "academyhrsd",
+  "name_for_human": "AI Academy HRSD API",
+  "description_for_human": "Runs governed HR Service Delivery scenario chains: grounded answers, HITL gate, audit ledger, KPIs.",
+  "description_for_model": "Runs HR Service Delivery (Tier-0) scenario chains. Use runScenario to answer any employee HR request: pass the scenario_id (hr-hrsd-01 policy Q&A, hr-hrsd-02 status lookup, hr-hrsd-03 knowledge-base search, hr-hrsd-04 life-event guidance, hr-hrsd-05 leave & absence, hr-hrsd-06 letter generation, hr-hrsd-07 data correction, hr-hrsd-08 ticket deflection/routing, hr-hrsd-09 multilingual) and the employee's request as text. The response contains the grounded answer, the human-in-the-loop gate outcome (approved / escalated / pending), the escalation route if any, the KPIs the run moves, and the full audit ledger. Use listScenarios to discover scenarios and getScenario for one scenario's specification.",
+  "functions": [
+    {
+      "name": "listScenarios",
+      "description": "List the available HR Service Delivery scenarios with their chain shape and HITL mode."
+    },
+    {
+      "name": "getScenario",
+      "description": "Get one scenario's full specification: personas, KPIs, Azure services, and a sample request."
+    },
+    {
+      "name": "runScenario",
+      "description": "Run a scenario chain for an employee request. Returns the grounded answer, the step-16 HITL gate outcome, the escalation route if any, the KPIs moved, and the audit ledger.",
+      "capabilities": {
+        "response_semantics": {
+          "data_path": "$",
+          "properties": {
+            "title": "$.scenario_name",
+            "subtitle": "$.answer"
+          }
+        }
+      }
+    }
+  ],
+  "runtimes": [
+    {
+      "type": "OpenApi",
+      "auth": {
+        "type": "None"
+      },
+      "spec": {
+        "url": "openapi.json"
+      },
+      "run_for_functions": ["listScenarios", "getScenario", "runScenario"]
+    }
+  ]
+}

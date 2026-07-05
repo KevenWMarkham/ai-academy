@@ -1,0 +1,34 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.21/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.21",
+  "version": "1.0.0",
+  "id": "3f2c9d84-6a1e-4b5f-9c0d-7e8a2b4c6d1f",
+  "developer": {
+    "name": "AI Academy",
+    "websiteUrl": "https://github.com/KevenWMarkham/ai-academy",
+    "privacyUrl": "https://github.com/KevenWMarkham/ai-academy/blob/main/docs/07-m365-copilot-surface.md",
+    "termsOfUseUrl": "https://github.com/KevenWMarkham/ai-academy/blob/main/docs/07-m365-copilot-surface.md"
+  },
+  "name": {
+    "short": "HR Service Delivery",
+    "full": "AI Academy · HR Service Delivery Agent"
+  },
+  "description": {
+    "short": "Tier-0 HR help desk: policy answers, status, letters — before a ticket is raised.",
+    "full": "The AI Academy HR Service Delivery agent answers everyday HR questions in Microsoft 365 Copilot — policy Q&A, request status, knowledge-base search, life-event and leave guidance, letters, data corrections, smart routing, and multilingual support. Every answer runs a governed scenario chain with a human-in-the-loop gate at step 16 and a full audit ledger. Teaching deployment: all HR data is synthetic."
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "accentColor": "#2E5E4E",
+  "validDomains": [],
+  "copilotAgents": {
+    "declarativeAgents": [
+      {
+        "id": "hrServiceDelivery",
+        "file": "declarativeAgent.json"
+      }
+    ]
+  }
+}
