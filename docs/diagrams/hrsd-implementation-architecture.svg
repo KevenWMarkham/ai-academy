@@ -200,7 +200,7 @@
   <path class="lData" d="M190,145 V180" marker-end="url(#aData)"/>
   <text class="eData" x="120" y="166">C1 SOAP/REST · batch</text>
   <path class="lData" d="M350,145 V180" marker-end="url(#aData)"/>
-  <text class="eData" x="356" y="166">C2 OData v2 · delta</text>
+  <text class="eData" x="344" y="166" text-anchor="end">C2 OData v2 · delta</text>
   <path class="lData" d="M585,145 V180" marker-end="url(#aData)"/>
   <text class="eData" x="591" y="170">C3 webhook (JSON)</text>
   <path class="lData" d="M515,145 V162 H400 V180" marker-end="url(#aData)"/>
@@ -214,28 +214,28 @@
 
   <!-- band 2 internal medallion -->
   <path class="lData" d="M290,415 H320" marker-end="url(#aData)"/>
-  <text class="eData" x="266" y="448">C7 Spark merge</text>
+  <text class="eData" x="266" y="477">C7 Spark merge</text>
   <path class="lData" d="M510,415 H540" marker-end="url(#aData)"/>
-  <text class="eData" x="492" y="448">C8 gold build</text>
+  <text class="eData" x="492" y="477">C8 gold build</text>
 
   <!-- band 2 ↔ band 3 -->
   <path class="lCtl" d="M470,565 V480" marker-end="url(#aCtl)"/>
-  <text class="eCtl" x="476" y="527">C9 Spark jobs · ELT + tokenize + KPI</text>
+  <text class="eCtl" x="478" y="502">C9 Spark jobs · ELT + tokenize + KPI</text>
   <path class="lData" d="M430,640 H390" marker-end="url(#aData)" marker-start="url(#aData)"/>
-  <text class="eData" x="342" y="605">C10 REST · PII detect</text>
+  <text class="eData" x="338" y="558">C10 REST · PII detect</text>
   <path class="lData" d="M730,465 V565" marker-end="url(#aData)"/>
-  <text class="eData" x="736" y="522">C11 Delta read · KB library</text>
+  <text class="eData" x="736" y="506">C11 Delta read · KB library</text>
   <path class="lData" d="M910,640 H917 A 8 8 0 0 1 933 640 H950" marker-end="url(#aData)" marker-start="url(#aData)"/>
-  <text class="eData" x="848" y="663">C12 REST · embed</text>
+  <text class="eData" x="919" y="702" text-anchor="end">C12 REST · embed</text>
   <path class="lData" d="M750,565 V530 H870 V465" marker-end="url(#aData)"/>
-  <text class="eData" x="518" y="524">C13 REST mergeOrUpload · chunks + content_vector</text>
+  <text class="eData" x="724" y="549" text-anchor="end">C13 REST mergeOrUpload (chunks + vectors)</text>
 
   <!-- band 2/3 ↔ band 4 -->
   <path class="lData" d="M925,465 V800" marker-end="url(#aData)" marker-start="url(#aData)"/>
-  <text class="eData" x="931" y="738">C14 REST · hybrid query</text>
-  <text class="eData" x="931" y="751">(BM25 + kNN) · MCP search tool</text>
+  <text class="eData" x="919" y="738" text-anchor="end">C14 REST · hybrid query</text>
+  <text class="eData" x="919" y="751" text-anchor="end">(BM25 + kNN) · MCP search tool</text>
   <path class="lData" d="M1050,685 V800" marker-end="url(#aData)" marker-start="url(#aData)"/>
-  <text class="eData" x="1056" y="745">C15 REST · chat + query embed</text>
+  <text class="eData" x="1056" y="716">C15 REST · chat + query embed</text>
   <path class="lData" d="M300,685 V800" marker-end="url(#aData)" marker-start="url(#aData)"/>
   <text class="eData" x="306" y="745">C16 REST · CLU / PII / translate</text>
   <path class="lData" d="M1245,800 V465" marker-end="url(#aData)"/>
@@ -247,11 +247,11 @@
 
   <!-- band 4 ↔ band 6 (through band-5 corridors) -->
   <path class="lData" d="M270,1135 V940" marker-end="url(#aData)" marker-start="url(#aData)"/>
-  <text class="eData" x="246" y="984" transform="rotate(-90 246,984)">C20 REST · OpenAPI plugin</text>
+  <text class="eData" x="284" y="1128" transform="rotate(-90 284,1128)">C20 REST · OpenAPI plugin</text>
   <path class="lCtl" d="M780,940 V1135" marker-end="url(#aCtl)" marker-start="url(#aCtl)"/>
-  <text class="eCtl" x="762" y="1000" transform="rotate(-90 762,1000)">C21 Graph/Bot · approve/ack</text>
+  <text class="eCtl" x="796" y="1128" transform="rotate(-90 796,1128)">C21 Graph/Bot · approve/ack</text>
   <path class="lData" d="M480,1135 V940" marker-end="url(#aData)" marker-start="url(#aData)"/>
-  <text class="eData" x="462" y="984" transform="rotate(-90 462,984)">C22 REST /api</text>
+  <text class="eData" x="496" y="1128" transform="rotate(-90 496,1128)">C22 REST /api</text>
   <path class="lData" d="M650,365 V305 H1410 V1105 H1130 V1135" marker-end="url(#aData)"/>
   <text class="eData" x="1030" y="301">C23 Direct Lake · KPI semantic model</text>
 
@@ -273,7 +273,7 @@
   <path class="lData" d="M490,865 H520" marker-end="url(#aData)"/>
   <text class="eData" x="484" y="920">invoke</text>
   <path class="lCtl" d="M800,855 H830" marker-end="url(#aCtl)"/>
-  <text class="eCtl" x="796" y="848">MCP</text>
+  <text class="eCtl" x="805" y="848">MCP</text>
   <path class="lCtl" d="M700,905 V925 H1130 V905" marker-end="url(#aCtl)"/>
   <text class="eCtl" x="860" y="921">gate check @ step 16</text>
 
