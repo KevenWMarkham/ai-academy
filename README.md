@@ -49,7 +49,8 @@ AI-Academy/
 │   └── academy-scenarios-hrsd/   ← the 9 HR Service Delivery scenarios (runnable)
 ├── apps/
 │   ├── academy-cli/              ← `academy` command: list / show / run / chain / kpi
-│   └── academy-api/              ← FastAPI backend the M365 Copilot agent calls
+│   ├── academy-api/              ← FastAPI backend (M365 Copilot agent + dashboard)
+│   └── academy-web/              ← React dashboard: run chains, watch the gate & ledger live
 ├── m365/
 │   ├── appPackage/               ← declarative agent (v1.7) + API plugin (v2.4) + OpenAPI
 │   └── package.ps1               ← stamps the API URL, zips the uploadable package
@@ -104,6 +105,18 @@ academy run hr-hrsd-06          # ACK_ONLY — a human acknowledges before the l
 academy run hr-hrsd-09          # Spanish in, Spanish out — Translator wraps the chain
 academy chain                   # print the canonical 24-step chain
 academy run hr-hrsd-01 --text "Can I cash out unused PTO when I leave?"
+```
+
+## The dashboard
+
+A React console (Vite + TypeScript) over the same API the Copilot agent uses — pick a
+scenario from the register, ask as Raj/Ingrid/Lucía, and watch the chain execute: the
+stage-by-stage **ledger register**, the **stamped gate verdict** (approved / escalated /
+pending), the answer as delivered in Teams, and the KPIs the run moves.
+
+```bash
+npm install
+npm run dev        # api on :8000 + web on :5173 (proxied, no CORS config needed)
 ```
 
 ## Going live (optional)

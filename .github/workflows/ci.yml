@@ -32,3 +32,19 @@ jobs:
         run: |
           python scripts/make_icons.py
           git diff --exit-code m365/appPackage/color.png m365/appPackage/outline.png
+
+  web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Typecheck + build the dashboard
+        run: npm run build

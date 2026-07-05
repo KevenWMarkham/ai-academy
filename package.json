@@ -1,0 +1,19 @@
+{
+  "name": "ai-academy",
+  "private": true,
+  "version": "0.1.0",
+  "description": "AI Academy — HR Service Delivery scenario chains (Python runtime + React dashboard)",
+  "workspaces": [
+    "apps/academy-web"
+  ],
+  "scripts": {
+    "dev": "concurrently -n api,web -c blue,green \"npm run dev:api\" \"npm run dev:web\"",
+    "dev:api": "python -m uvicorn academy_api.main:app --reload --port 8000",
+    "dev:web": "npm run dev -w apps/academy-web",
+    "build": "npm run build -w apps/academy-web",
+    "typecheck": "npm run typecheck -w apps/academy-web"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

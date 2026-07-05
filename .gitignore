@@ -11,3 +11,5 @@ build/
 uv.lock
 runs/
 m365/dist/
+node_modules/
+apps/academy-web/dist/
